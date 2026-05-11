@@ -7,37 +7,38 @@
 <style>
 :root{color-scheme:light;--bg:#F4F0EB;--card:#FFF;--card2:#F2EDE8;--border:#DDD5CB;--border-lt:#EDE7E1;--brown:#5C3D2B;--brown2:#7A5440;--brown-bg:rgba(92,61,43,.07);--text:#1E160F;--text2:#5C4535;--text3:#9B8470;--text4:#C4AD99;--green:#1E7A48;--red:#B03030;--green-bg:rgba(30,122,72,.10);--red-bg:rgba(176,48,48,.10);}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding-bottom:20px;min-height:100vh}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding-bottom:28px;min-height:100vh}
 .hdr{background:linear-gradient(135deg,#3D2314,#5C3D2B 55%,#7A5440);padding:18px 16px 14px;position:sticky;top:0;z-index:20;box-shadow:0 2px 10px rgba(0,0,0,.25)}
 .hdr-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
 .logo{font-family:Georgia,serif;font-size:21px;color:#fff}.logo em{font-style:italic;color:rgba(255,255,255,.6)}
 .logo-sub{font-size:9px;color:rgba(255,255,255,.35);letter-spacing:.18em;text-transform:uppercase;margin-top:1px}
 .pill{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.15);padding:6px 11px;border-radius:20px;font-size:10.5px;color:rgba(255,255,255,.65)}
 .dot{width:7px;height:7px;border-radius:50%;background:#4ADE80;flex-shrink:0}
-.dot.err{background:#F87171}
 .status{font-size:10px;color:rgba(255,255,255,.4);background:rgba(0,0,0,.15);border-radius:6px;padding:5px 10px}
 .tabs{display:flex;background:var(--card);border-bottom:2px solid var(--border);overflow-x:auto;scrollbar-width:none;position:sticky;top:86px;z-index:15}
 .tabs::-webkit-scrollbar{display:none}
-.tab{flex:1;min-width:72px;padding:11px 6px;text-align:center;font-size:11.5px;font-weight:600;color:var(--text3);border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;white-space:nowrap}
+.tab{flex:1;min-width:72px;padding:11px 6px;text-align:center;font-size:11.5px;font-weight:600;color:var(--text3);border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;white-space:nowrap;user-select:none}
 .tab.active{color:var(--brown);border-bottom-color:var(--brown)}
 .page{display:none;padding:14px}.page.active{display:block}
-
-
-/* BANNER */
+.loading-screen{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:100;gap:16px}
+.loading-logo{font-family:Georgia,serif;font-size:32px;color:var(--brown)}.loading-logo em{font-style:italic;color:var(--brown2)}
+.loading-bar{width:160px;height:3px;background:var(--border);border-radius:2px;overflow:hidden}
+.loading-fill{height:100%;background:var(--brown);border-radius:2px;animation:load 1.2s ease-in-out forwards}
+@keyframes load{0%{width:0}100%{width:100%}}
+.loading-txt{font-size:11px;color:var(--text3)}
 .banner{background:linear-gradient(135deg,#2a1509,#4a2e1a,#6B4930);border-radius:14px;padding:18px;margin-bottom:14px;box-shadow:0 4px 14px rgba(92,61,43,.2)}
 .banner-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
 .b-lbl{font-size:9px;color:rgba(255,255,255,.45);letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px;font-weight:600}
 .b-val{font-size:25px;font-weight:700;color:#fff;font-family:Georgia,serif;line-height:1;letter-spacing:-.5px}
 .b-sub{font-size:10px;color:rgba(255,255,255,.4);margin-top:3px}
 .banner-title{font-size:10.5px;color:rgba(255,255,255,.45);letter-spacing:.1em;text-transform:uppercase;font-weight:600}
-
-/* SECTION */
 .sec{font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text4);margin:16px 0 10px;display:flex;align-items:center;gap:8px}
 .sec::after{content:'';flex:1;height:1px;background:var(--border)}
-
-/* STORE CARDS */
-.store-list{display:flex;flex-direction:column;gap:10px}
-.scard{background:var(--card);border:1px solid var(--border);border-left:4px solid;border-radius:12px;padding:13px 15px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 3px rgba(92,61,43,.06)}
+.cc{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px;margin-bottom:11px;box-shadow:0 1px 3px rgba(92,61,43,.06)}
+.cl{font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:11px}
+.store-list{display:flex;flex-direction:column;gap:10px;margin-bottom:11px}
+.scard{background:var(--card);border:1px solid var(--border);border-left:4px solid;border-radius:12px;padding:13px 15px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 3px rgba(92,61,43,.06);cursor:pointer;transition:box-shadow .2s}
+.scard:hover{box-shadow:0 4px 14px rgba(92,61,43,.15)}.scard.sel{background:var(--card2)}
 .sm{font-size:17px;flex-shrink:0}
 .sl{flex:1}
 .sn{font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:3px}
@@ -47,15 +48,30 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .trend{font-size:11.5px;font-weight:700;padding:3px 7px;border-radius:6px;display:inline-block}
 .trend.up{background:var(--green-bg);color:var(--green)}.trend.dn{background:var(--red-bg);color:var(--red)}
 .spct{font-size:9.5px;color:var(--text4);margin-top:3px}
-
-/* CHART */
-.cc{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px;margin-bottom:11px;box-shadow:0 1px 3px rgba(92,61,43,.06)}
-.cl{font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:11px}
-
-/* MES */
+/* docenas badge on store card */
+.doc-badge{display:inline-flex;align-items:center;gap:4px;background:var(--brown-bg);border:1px solid var(--border);border-radius:8px;padding:3px 8px;font-size:10px;color:var(--brown2);font-weight:600;margin-top:5px}
+.doc-badge span{color:var(--brown);font-size:12px;font-weight:700;font-family:Georgia,serif}
+/* store detail */
+.store-detail{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:11px}
+.sd-header{padding:12px 14px;border-bottom:1px solid var(--border);background:var(--card2);display:flex;align-items:center;gap:10px}
+.sd-name{font-size:14px;font-weight:700}
+.sd-stats{display:flex;gap:16px;font-size:11px;color:var(--text3);margin-top:2px}
+.sd-body{padding:14px}
+.sd-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.sd-kpi{background:var(--card2);border-radius:10px;padding:10px 12px}
+.sd-kpi-v{font-size:18px;font-weight:700;font-family:Georgia,serif}
+.sd-kpi-l{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
+.sd-sub-tabs{display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;scrollbar-width:none}
+.sd-sub-tabs::-webkit-scrollbar{display:none}
+.sd-stab{padding:5px 12px;border-radius:16px;border:1px solid var(--border);background:var(--card);color:var(--text3);font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .15s}
+.sd-stab.active{background:var(--brown);border-color:var(--brown);color:#fff}
+.sd-panel{display:none}.sd-panel.active{display:block}
+/* docenas table highlight */
+.doc-col{background:rgba(92,61,43,.06);font-weight:700;color:var(--brown2)}
+/* meses */
 .mscroll{display:flex;gap:8px;overflow-x:auto;padding-bottom:3px;scrollbar-width:none;margin-bottom:11px}
 .mscroll::-webkit-scrollbar{display:none}
-.mc{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:11px 13px;flex:0 0 120px;cursor:pointer}
+.mc{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:11px 13px;flex:0 0 120px;cursor:pointer;user-select:none}
 .mc.sel{border-color:var(--brown);background:var(--brown-bg)}
 .mm{font-size:9px;color:var(--text4);text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:3px}
 .mv{font-size:18px;font-weight:700;font-family:Georgia,serif;letter-spacing:-.3px}
@@ -68,8 +84,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .mdsn{flex:1;font-size:13px;font-weight:600;color:var(--text2)}
 .mdv{font-size:13.5px;font-weight:700;font-family:Georgia,serif}
 .mdt{font-size:9.5px;color:var(--text4);margin-top:1px;text-align:right}
-
-/* MACRO */
+/* macro */
 .krow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:11px}
 .kc{background:var(--card);border:1px solid var(--border);border-top:3px solid var(--brown);border-radius:12px;padding:13px}
 .kl{font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);margin-bottom:5px}
@@ -83,14 +98,41 @@ tr:last-child td{border-bottom:none}
 tfoot td{background:var(--card2);font-weight:700;color:var(--brown)}
 .badge{display:inline-block;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:700}
 .badge.up{background:var(--green-bg);color:var(--green)}.badge.dn{background:var(--red-bg);color:var(--red)}.badge.fl{background:var(--card2);color:var(--text3)}
+/* bars */
+.hora-bar-wrap{display:flex;flex-direction:column;gap:5px}
+.hora-bar-row{display:flex;align-items:center;gap:8px}
+.hora-lbl{font-size:10px;color:var(--text3);width:36px;text-align:right;flex-shrink:0}
+.hora-track{flex:1;height:16px;background:var(--card2);border-radius:3px;overflow:hidden}
+.hora-fill{height:100%;border-radius:3px}
+.hora-val{font-size:10px;font-weight:600;color:var(--text2);width:52px;text-align:right}
+.prod-bar-wrap{display:flex;flex-direction:column;gap:6px}
+.prod-row{display:flex;align-items:center;gap:8px}
+.prod-rank{font-size:10px;color:var(--text4);width:16px;text-align:center;flex-shrink:0}
+.prod-lbl{font-size:11px;color:var(--text);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.prod-track{width:90px;height:14px;background:var(--card2);border-radius:3px;overflow:hidden;flex-shrink:0}
+.prod-fill{height:100%;border-radius:3px}
+.prod-val{font-size:10px;font-weight:600;color:var(--text2);width:48px;text-align:right;flex-shrink:0}
+.pago-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border-lt)}
+.pago-row:last-child{border-bottom:none}
+.pago-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.pago-lbl{flex:1;font-size:11.5px;color:var(--text2)}
+.pago-track{width:80px;height:10px;background:var(--card2);border-radius:3px;overflow:hidden}
+.pago-fill{height:100%;border-radius:3px}
+.pago-val{font-size:11px;font-weight:600;width:54px;text-align:right}
+.pago-pct{font-size:9.5px;color:var(--text3);width:34px;text-align:right}
 </style>
 </head>
 <body>
+<div class="loading-screen" id="loadScreen">
+  <div class="loading-logo">Entre <em>Dos</em></div>
+  <div class="loading-bar"><div class="loading-fill"></div></div>
+  <div class="loading-txt">Cargando dashboard...</div>
+</div>
 
-<div id="app">
+<div id="app" style="display:none">
 <div class="hdr">
   <div class="hdr-row">
-    <div><div class="logo">Entre <em>Dos</em></div><div class="logo-sub">Red de tiendas</div></div>
+    <div><div class="logo">Entre <em>Dos</em></div><div class="logo-sub">Red de tiendas · 2026</div></div>
     <div class="pill"><div class="dot" id="dot"></div><span id="pillTxt">—</span></div>
   </div>
   <div class="status" id="statusBar">Cargando...</div>
@@ -103,6 +145,7 @@ tfoot td{background:var(--card2);font-weight:700;color:var(--brown)}
   <div class="tab" onclick="go('macro',this)">🏢 Macro</div>
 </div>
 
+<!-- RESUMEN -->
 <div class="page active" id="tab-resumen">
   <div class="banner">
     <div class="banner-title" id="bannerTitle">Red completa · Ene–May 2026</div>
@@ -116,224 +159,418 @@ tfoot td{background:var(--card2);font-weight:700;color:var(--brown)}
   <div class="sec">Evolución mensual</div>
   <div class="cc"><div class="cl">Ventas por unidad · millones $</div><div style="position:relative;height:210px"><canvas id="cEvol"></canvas></div></div>
   <div class="sec">Participación</div>
-  <div class="cc"><div class="cl">Por unidad (meses completos)</div><div style="position:relative;height:190px"><canvas id="cPie"></canvas></div></div>
+  <div class="cc"><div class="cl">Por unidad · acumulado Ene–May</div><div style="position:relative;height:210px"><canvas id="cPie"></canvas></div></div>
+  <div class="sec">Ticket promedio mensual</div>
+  <div class="cc"><div class="cl">Ticket promedio · $</div><div style="position:relative;height:200px"><canvas id="cPromResumen"></canvas></div></div>
 </div>
 
+<!-- TIENDAS -->
 <div class="page" id="tab-tiendas">
-  <div class="sec" style="margin-top:2px">Acumulado por unidad · tocá para ver detalle</div>
+  <div class="sec" style="margin-top:2px">Acumulado por unidad</div>
   <div class="store-list" id="storeList"></div>
-  <div id="storeDetail" style="display:none;margin-top:10px"></div>
-  <div class="sec">Ticket / Mesa promedio mensual</div>
+  <div class="store-detail" id="storeDetail" style="display:none">
+    <div class="sd-header" id="sdHeader"></div>
+    <div class="sd-body">
+      <div class="sd-grid" id="sdKpis"></div>
+      <div class="sd-sub-tabs">
+        <div class="sd-stab active" onclick="sdTab('mensual',this)">📅 Por Mes</div>
+        <div class="sd-stab" onclick="sdTab('hora',this)">⏰ Por Hora</div>
+        <div class="sd-stab" onclick="sdTab('dia',this)">📆 Por Día</div>
+        <div class="sd-stab" onclick="sdTab('productos',this)">🏆 Productos</div>
+        <div class="sd-stab" onclick="sdTab('pagos',this)">💳 Pagos</div>
+      </div>
+      <div class="sd-panel active" id="sdp-mensual">
+        <div style="position:relative;height:180px"><canvas id="cStoreMes"></canvas></div>
+        <div class="tscroll" style="margin-top:10px">
+          <table><thead><tr><th>Mes</th><th>Facturación</th><th>Tickets</th><th>Prom/ticket</th><th style="background:rgba(92,61,43,.06)">📦 Docenas</th></tr></thead>
+          <tbody id="tStoreMes"></tbody></table>
+        </div>
+      </div>
+      <div class="sd-panel" id="sdp-hora">
+        <div style="position:relative;height:180px;margin-bottom:10px"><canvas id="cStoreHora"></canvas></div>
+        <div class="cl">Franjas pico</div>
+        <div class="hora-bar-wrap" id="horaBarsPeak"></div>
+      </div>
+      <div class="sd-panel" id="sdp-dia">
+        <div style="position:relative;height:180px;margin-bottom:10px"><canvas id="cStoreDia"></canvas></div>
+        <div class="hora-bar-wrap" id="diaBarsPeak"></div>
+      </div>
+      <div class="sd-panel" id="sdp-productos">
+        <div class="cl">Top productos / promociones por facturación</div>
+        <div class="prod-bar-wrap" id="prodBars"></div>
+        <div style="position:relative;height:200px;margin-top:12px"><canvas id="cStoreProds"></canvas></div>
+      </div>
+      <div class="sd-panel" id="sdp-pagos">
+        <div style="position:relative;height:180px;margin-bottom:10px"><canvas id="cStorePagos"></canvas></div>
+        <div id="pagoRows"></div>
+      </div>
+    </div>
+  </div>
+  <div class="sec">Ticket promedio mensual</div>
   <div class="cc"><div class="cl">Ticket promedio · $</div><div style="position:relative;height:190px"><canvas id="cTkt"></canvas></div></div>
+  <div class="sec">Docenas vendidas por mes</div>
+  <div class="cc"><div class="cl">Docenas · todas las tiendas</div><div style="position:relative;height:200px"><canvas id="cDocenas"></canvas></div></div>
 </div>
 
+<!-- MESES -->
 <div class="page" id="tab-meses">
   <div class="sec" style="margin-top:2px">Seleccioná un mes</div>
   <div class="mscroll" id="mscroll"></div>
   <div id="mdetail"></div>
+  <div class="sec">Comparativa mensual</div>
+  <div class="cc"><div class="cl">Facturación por tienda</div><div style="position:relative;height:210px"><canvas id="cMesBar"></canvas></div></div>
 </div>
 
+<!-- MACRO -->
 <div class="page" id="tab-macro">
   <div class="sec" style="margin-top:2px">KPIs anuales · 2025</div>
   <div class="krow">
     <div class="kc"><div class="kl">E2 + Alimendos</div><div class="kv">$487.6M</div><div class="ks">Facturación bruta</div></div>
     <div class="kc"><div class="kl">Neto</div><div class="kv">$403M</div><div class="ks">Después de cargas</div></div>
-    <div class="kc"><div class="kl">Tiendas neta</div><div class="kv">$21.7M</div><div class="ks">Red de puntos</div></div>
-    <div class="kc"><div class="kl">Resultado</div><div class="kv">49%</div><div class="ks">Promedio anual</div></div>
   </div>
-  <div class="sec">Resultado mensual 2025</div>
-  <div class="cc"><div class="cl">% Resultado por mes</div><div style="position:relative;height:170px"><canvas id="cMacro"></canvas></div></div>
+  <div class="sec">Acumulado 2026 · Ene–May</div>
+  <div class="cc"><div class="cl">Facturación por tienda</div><div style="position:relative;height:200px"><canvas id="cMacro2026"></canvas></div></div>
   <div class="sec">Detalle 2025</div>
-  <div class="tscroll"><table><thead><tr><th>Mes</th><th>E2+Alim</th><th>Neto</th><th>Resultado</th></tr></thead>
-  <tbody id="tMacro"></tbody>
-  <tfoot><tr><td>TOTAL</td><td>$487.6M</td><td>$403M</td><td><span class="badge fl">49.0%</span></td></tr></tfoot>
-  </table></div>
+  <div class="tscroll">
+    <table>
+      <thead><tr><th>Mes</th><th>E2+Alimendos</th><th>Neto</th></tr></thead>
+      <tbody id="tMacro"></tbody>
+      <tfoot><tr><td>TOTAL</td><td>$487.6M</td><td>$403M</td></tr></tfoot>
+    </table>
+  </div>
 </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script>
 const SC = {Peatonal:'#3A6898','9 de Julio':'#2D7A52',Amigorena:'#B87020',Sheraton:'#5B7C9A',Café:'#7B3F00'};
 const MEDALS = {Peatonal:'🥇','9 de Julio':'🥈',Amigorena:'🥉',Sheraton:'4️⃣',Café:'☕'};
-const KPI_MESES=[{m:'Ene',e2:27699269,neto:22891958,res:56.07},{m:'Feb',e2:39034639,neto:32260032,res:63.82},{m:'Mar',e2:45962641,neto:37985654,res:21.86},{m:'Abr',e2:36061899,neto:29803222,res:48.52},{m:'May',e2:49608413,neto:40998688,res:71.03},{m:'Jun',e2:34768877,neto:28734609,res:51.65},{m:'Jul',e2:35768692,neto:29560902,res:36.20},{m:'Ago',e2:67950205,neto:56157194,res:83.26},{m:'Sep',e2:51773089,neto:42787677,res:64.05},{m:'Oct',e2:51507494,neto:42568177,res:61.53},{m:'Nov',e2:41310098,neto:34140577,res:49.92},{m:'Dic',e2:16160530,neto:13355810,res:47.23}];
-
-const DB = [
-  {tienda:'Peatonal',   mes:'2026-01',total:36036994,tickets:1228,ticket_prom:29346},
-  {tienda:'Peatonal',   mes:'2026-02',total:35884224,tickets:1184,ticket_prom:30307},
-  {tienda:'Peatonal',   mes:'2026-03',total:38220460,tickets:1262,ticket_prom:30285},
-  {tienda:'Peatonal',   mes:'2026-04',total:32990020,tickets:1069,ticket_prom:30860},
-  {tienda:'Peatonal',   mes:'2026-05',total:13116015,tickets:468, ticket_prom:28025},
-  {tienda:'9 de Julio', mes:'2026-01',total:19484410,tickets:680, ticket_prom:28653},
-  {tienda:'9 de Julio', mes:'2026-02',total:19841003,tickets:700, ticket_prom:28344},
-  {tienda:'9 de Julio', mes:'2026-03',total:18471670,tickets:600, ticket_prom:30786},
-  {tienda:'9 de Julio', mes:'2026-04',total:19816980,tickets:638, ticket_prom:31061},
-  {tienda:'9 de Julio', mes:'2026-05',total:5984730, tickets:187, ticket_prom:32003},
-  {tienda:'Amigorena',  mes:'2026-01',total:8082270, tickets:291, ticket_prom:27774},
-  {tienda:'Amigorena',  mes:'2026-02',total:12826035,tickets:457, ticket_prom:28065},
-  {tienda:'Amigorena',  mes:'2026-03',total:14713844,tickets:507, ticket_prom:29021},
-  {tienda:'Amigorena',  mes:'2026-04',total:17729099,tickets:594, ticket_prom:29846},
-  {tienda:'Amigorena',  mes:'2026-05',total:8327330, tickets:245, ticket_prom:33989},
-  {tienda:'Sheraton',   mes:'2026-01',total:6145530, tickets:422, ticket_prom:14562},
-  {tienda:'Sheraton',   mes:'2026-02',total:5339005, tickets:355, ticket_prom:15039},
-  {tienda:'Sheraton',   mes:'2026-03',total:9482235, tickets:493, ticket_prom:19233},
-  {tienda:'Sheraton',   mes:'2026-04',total:6895175, tickets:356, ticket_prom:19368},
-  {tienda:'Sheraton',   mes:'2026-05',total:3318060, tickets:169, ticket_prom:19633},
-  {tienda:'Café',       mes:'2026-01',total:37836082,tickets:1875,ticket_prom:20179},
-  {tienda:'Café',       mes:'2026-02',total:39251255,tickets:1886,ticket_prom:20811},
-  {tienda:'Café',       mes:'2026-03',total:32864890,tickets:1750,ticket_prom:18779},
-  {tienda:'Café',       mes:'2026-04',total:35140595,tickets:1788,ticket_prom:19653},
-  {tienda:'Café',       mes:'2026-05',total:9578635, tickets:515, ticket_prom:18599},
+const KPI_MESES=[
+  {m:'Ene',e2:27699269,neto:22891958},{m:'Feb',e2:39034639,neto:32260032},
+  {m:'Mar',e2:45962641,neto:37985654},{m:'Abr',e2:36061899,neto:29803222},
+  {m:'May',e2:49608413,neto:40998688},{m:'Jun',e2:34768877,neto:28734609},
+  {m:'Jul',e2:35768692,neto:29560902},{m:'Ago',e2:67950205,neto:56157194},
+  {m:'Sep',e2:51773089,neto:42787677},{m:'Oct',e2:51507494,neto:42568177},
+  {m:'Nov',e2:41310098,neto:34140577},{m:'Dic',e2:16160530,neto:13355810}
 ];
 
-const STORES = [...new Set(DB.map(r=>r.tienda))];
-const MESES  = [...new Set(DB.map(r=>r.mes))].sort();
+const DB           = [{"tienda": "Peatonal", "mes": "2026-01", "total": 36036994, "tickets": 1228, "ticket_prom": 29346}, {"tienda": "Peatonal", "mes": "2026-02", "total": 35884224, "tickets": 1184, "ticket_prom": 30308}, {"tienda": "Peatonal", "mes": "2026-03", "total": 38220460, "tickets": 1262, "ticket_prom": 30286}, {"tienda": "Peatonal", "mes": "2026-04", "total": 32990020, "tickets": 1069, "ticket_prom": 30861}, {"tienda": "Peatonal", "mes": "2026-05", "total": 13116015, "tickets": 468, "ticket_prom": 28026}, {"tienda": "9 de Julio", "mes": "2026-01", "total": 19484410, "tickets": 680, "ticket_prom": 28654}, {"tienda": "9 de Julio", "mes": "2026-02", "total": 19841003, "tickets": 700, "ticket_prom": 28344}, {"tienda": "9 de Julio", "mes": "2026-03", "total": 18471670, "tickets": 600, "ticket_prom": 30786}, {"tienda": "9 de Julio", "mes": "2026-04", "total": 19816980, "tickets": 638, "ticket_prom": 31061}, {"tienda": "9 de Julio", "mes": "2026-05", "total": 5984730, "tickets": 187, "ticket_prom": 32004}, {"tienda": "Amigorena", "mes": "2026-01", "total": 8082270, "tickets": 291, "ticket_prom": 27774}, {"tienda": "Amigorena", "mes": "2026-02", "total": 12826035, "tickets": 457, "ticket_prom": 28066}, {"tienda": "Amigorena", "mes": "2026-03", "total": 14713844, "tickets": 507, "ticket_prom": 29021}, {"tienda": "Amigorena", "mes": "2026-04", "total": 17729099, "tickets": 594, "ticket_prom": 29847}, {"tienda": "Amigorena", "mes": "2026-05", "total": 8327330, "tickets": 245, "ticket_prom": 33989}, {"tienda": "Sheraton", "mes": "2026-01", "total": 6145530, "tickets": 422, "ticket_prom": 14563}, {"tienda": "Sheraton", "mes": "2026-02", "total": 5339005, "tickets": 355, "ticket_prom": 15039}, {"tienda": "Sheraton", "mes": "2026-03", "total": 9482235, "tickets": 493, "ticket_prom": 19234}, {"tienda": "Sheraton", "mes": "2026-04", "total": 6895175, "tickets": 356, "ticket_prom": 19368}, {"tienda": "Sheraton", "mes": "2026-05", "total": 3318060, "tickets": 169, "ticket_prom": 19633}, {"tienda": "Café", "mes": "2026-01", "total": 37911682, "tickets": 1875, "ticket_prom": 20220}, {"tienda": "Café", "mes": "2026-02", "total": 39454055, "tickets": 1886, "ticket_prom": 20919}, {"tienda": "Café", "mes": "2026-03", "total": 32973290, "tickets": 1750, "ticket_prom": 18842}, {"tienda": "Café", "mes": "2026-04", "total": 35165895, "tickets": 1788, "ticket_prom": 19668}, {"tienda": "Café", "mes": "2026-05", "total": 9578635, "tickets": 515, "ticket_prom": 18599}];
+const HOURLY_ALL   = {"Peatonal": [0, 0, 0, 0, 0, 0, 0, 0, 92500.0, 3732528.0, 9624475.0, 16866935.0, 16026400.0, 9518114.0, 9540908.0, 10059879.0, 10699609.0, 13531535.0, 16994140.0, 20463360.0, 18324380.0, 753350.0, 19600.0, 0], "9 de Julio": [0, 0, 0, 0, 0, 0, 0, 0, 0, 2525710.0, 6028480.0, 10292750.0, 7589530.0, 6547640.0, 6282270.0, 5933763.0, 5699480.0, 6783480.0, 8260890.0, 9064770.0, 8365830.0, 224200.0, 0, 0], "Amigorena": [0, 0, 0, 0, 0, 0, 0, 0, 69800.0, 4498200.0, 6234060.0, 6571050.0, 5373525.0, 2495001.0, 3365014.0, 2616670.0, 3564310.0, 6314925.0, 7327145.0, 7903070.0, 5169508.0, 176300.0, 0, 0], "Sheraton": [0, 0, 0, 0, 0, 0, 0, 0, 38700.0, 2924955.0, 3085050.0, 3526125.0, 1841675.0, 1569150.0, 2211665.0, 1742400.0, 2935800.0, 3237930.0, 3219945.0, 2405495.0, 2354315.0, 86800.0, 0, 0], "Café": [0, 0, 0, 0, 0, 0, 0, 180200.0, 1803400.0, 9914700.0, 19221100.0, 19014900.0, 14405500.0, 16562700.0, 11826700.0, 6117900.0, 8233300.0, 14958700.0, 22389500.0, 16950000.0, 7153300.0, 672400.0, 0, 0]};
+const DOW_ALL      = {"Peatonal": [22355520.0, 17020923.0, 20868149.0, 21282146.0, 29544419.0, 29918581.0, 15257975.0], "9 de Julio": [14037453.0, 11671330.0, 11588260.0, 13149240.0, 16938490.0, 16214020.0, 0], "Amigorena": [9005710.0, 8332665.0, 8161665.0, 8221570.0, 9436300.0, 11323415.0, 7197253.0], "Sheraton": [3803360.0, 3846045.0, 3582130.0, 7207625.0, 6816425.0, 4876480.0, 1047940.0], "Café": [22544110.0, 22602150.0, 24847186.0, 23873390.0, 29598485.0, 31618236.0, 0]};
+const MEDIOS_ALL   = {"Peatonal": {"Tarj. Débito": 117915420.0, "Efectivo": 35347926.0, "Efectivo-Tarj. Débito": 2483828.0, "Tarj. Crédito": 314439.0}, "9 de Julio": {"Tarj. Débito": 57809933.0, "Efectivo": 22525300.0, "Efectivo-Tarj. Débito": 1505260.0, "Tarj. Crédito": 520600.0}, "Amigorena": {"Tarj. Débito": 35754503.0, "Mercado pago qr": 14116460.0, "Efectivo": 9527015.0, "Efectivo-Mercado pago qr": 663000.0, "Efectivo-Tarj. Débito": 615400.0, "Tarj. Crédito": 587100.0}, "Sheraton": {"Tarj. Débito": 25157845.0, "Efectivo": 5049035.0, "Efectivo-Tarj. Débito": 299125.0, "Tarj. Crédito": 235100.0}, "Café": {"Tarj. Débito": 104234500.0, "Efectivo": 35520755.0, "Efectivo-Tarj. Débito": 10177820.0, "Tarj. Crédito": 3053845.0, "Pedido ya": 944137.0, "Efectivo-Tarj. Crédito": 659100.0}};
+const TOP_PRODS_ALL= {"Peatonal": [{"nombre": "PROMO 2 Docenas Alfajores", "categoria": "Alfajores, Conos y Galletas", "cantidad": 551.0, "total": 28026599.0}, {"nombre": "Promo Docena clásica", "categoria": "Alfajores, Conos y Galletas", "cantidad": 906.0, "total": 25861100.0}, {"nombre": "Promo Media Docena clásica", "categoria": "Alfajores, Conos y Galletas", "cantidad": 1248.0, "total": 18134900.0}, {"nombre": "PROMO 3 Medias Docenas Alfajores", "categoria": "Alfajores, Conos y Galletas", "cantidad": 429.0, "total": 17075000.0}, {"nombre": "DOYPACK", "categoria": "Alfajores, Conos y Galletas", "cantidad": 552.0, "total": 12778620.0}, {"nombre": "Alfajor Entre Dos", "categoria": "Alfajores, Conos y Galletas", "cantidad": 2057.0, "total": 5326079.0}, {"nombre": "Promo Media Docena de Conitos", "categoria": "Alfajores, Conos y Galletas", "cantidad": 392.0, "total": 4803800.0}, {"nombre": "promo 18 alfajores", "categoria": "Promociones especiales", "cantidad": 154.0, "total": 4620000.0}, {"nombre": "Alfajor Black Edition", "categoria": "Alfajores, Conos y Galletas", "cantidad": 1245.0, "total": 3825800.0}, {"nombre": "ALFAJOR PISTACHO", "categoria": "Alfajores, Conos y Galletas", "cantidad": 425.0, "total": 2063800.0}, {"nombre": "adicional black edition", "categoria": "Alfajores, Conos y Galletas", "cantidad": 3935.0, "total": 1967500.0}, {"nombre": "Promo Clásica", "categoria": "Alfajores, Conos y Galletas", "cantidad": 93.0, "total": 1934000.0}, {"nombre": "Alfajoreate Ya 1", "categoria": "Alfajores, Conos y Galletas", "cantidad": 36.0, "total": 1914000.0}, {"nombre": "ENTRE DOS - Dulce de Leche 450gr Vidrio", "categoria": "Dulces, Mermeladas y Almibarados", "cantidad": 269.0, "total": 1858380.0}, {"nombre": "Alfajores Entre Dos caja x 2 unidades", "categoria": "Alfajores, Conos y Galletas", "cantidad": 313.0, "total": 1655300.0}], "9 de Julio": [{"nombre": "PROMO 2 Docenas Alfajores", "categoria": "Alfajores, Conos y Galletas", "cantidad": 325.0, "total": 16548000.0}, {"nombre": "Promo Docena clásica", "categoria": "Alfajores, Conos y Galletas", "cantidad": 496.0, "total": 14134300.0}, {"nombre": "Promo Media Docena clásica", "categoria": "Alfajores, Conos y Galletas", "cantidad": 688.0, "total": 9944600.0}, {"nombre": "PROMO 3 Medias Docenas Alfajores", "categoria": "Alfajores, Conos y Galletas", "cantidad": 159.0, "total": 6421000.0}, {"nombre": "DOYPACK mini alfajor", "categoria": "Alfajores, Conos y Galletas", "cantidad": 203.0, "total": 4680900.0}, {"nombre": "Promo Media Docena de Conitos", "categoria": "Alfajores, Conos y Galletas", "cantidad": 327.0, "total": 4012000.0}, {"nombre": "Alfajor Entre Dos", "categoria": "Alfajores, Conos y Galletas", "cantidad": 1238.0, "total": 3219400.0}, {"nombre": "promo 18 alfajores", "categoria": "Alfajores, Conos y Galletas", "cantidad": 78.0, "total": 2340000.0}, {"nombre": "promo 9 alfajores", "categoria": "Alfajores, Conos y Galletas", "cantidad": 97.0, "total": 1552000.0}, {"nombre": "Alfajor Pistacho", "categoria": "Alfajores, Conos y Galletas", "cantidad": 313.0, "total": 1522900.0}, {"nombre": "Alfajor Black Edition", "categoria": "Alfajores, Conos y Galletas", "cantidad": 475.0, "total": 1456300.0}, {"nombre": "Alfajoreate Ya 2", "categoria": "Promociones Especiales", "cantidad": 18.0, "total": 1209000.0}, {"nombre": "Promo 12 mini", "categoria": "Alfajores, Conos y Galletas", "cantidad": 60.0, "total": 1029000.0}, {"nombre": "Alfajoreate Ya 1", "categoria": "Alfajores, Conos y Galletas", "cantidad": 18.0, "total": 930000.0}, {"nombre": "Promo Clásica", "categoria": "Alfajores, Conos y Galletas", "cantidad": 36.0, "total": 750500.0}], "Amigorena": [{"nombre": "Alfajores Entre Dos x 12 unidades", "categoria": "Alfajores", "cantidad": 353.0, "total": 10179000.0}, {"nombre": "Alfajores Entre Dos x6 unidades", "categoria": "Alfajores", "cantidad": 529.0, "total": 7788000.0}, {"nombre": "PROMO 2 Docenas Alfajores", "categoria": "Alfajores", "cantidad": 140.0, "total": 7174000.0}, {"nombre": "DOYPACK mini alfajor", "categoria": "Alfajores", "cantidad": 276.0, "total": 6466100.0}, {"nombre": "PROMO 3 Medias Docenas Alfajores", "categoria": "Alfajores", "cantidad": 130.0, "total": 5225000.0}, {"nombre": "Conito Entre Dos caja x 6 unidades", "categoria": "Conitos", "cantidad": 306.0, "total": 3790000.0}, {"nombre": "promo 18 alfajores", "categoria": "Alfajores", "cantidad": 86.0, "total": 2580000.0}, {"nombre": "Alfajor Entre Dos", "categoria": "Alfajores", "cantidad": 980.0, "total": 2559900.0}, {"nombre": "DDL", "categoria": "Dulce de Leche", "cantidad": 195.0, "total": 1368300.0}, {"nombre": "Alfajor Black Edition", "categoria": "Alfajores", "cantidad": 349.0, "total": 1078700.0}, {"nombre": "promo 9 alfajores", "categoria": "Alfajores", "cantidad": 57.0, "total": 912000.0}, {"nombre": "ALFAJOREATE 2", "categoria": "Alfajores", "cantidad": 13.0, "total": 865000.0}, {"nombre": "ALFAJOREATE 1", "categoria": "Alfajores", "cantidad": 14.0, "total": 752000.0}, {"nombre": "Promo Clásica", "categoria": "Alfajores", "cantidad": 32.0, "total": 664000.0}, {"nombre": "Conito Entre Dos", "categoria": "Conitos", "cantidad": 253.0, "total": 574600.0}], "Sheraton": [{"nombre": "PROMO 2 DOCENAS", "categoria": "Alfajores y Conitos", "cantidad": 146.0, "total": 7245500.0}, {"nombre": "PROMO DOCENA CLASICA", "categoria": "Alfajores y Conitos", "cantidad": 227.0, "total": 6263625.0}, {"nombre": "PROMO MEDIA DOCENA", "categoria": "Alfajores y Conitos", "cantidad": 248.0, "total": 3564580.0}, {"nombre": "DOYPACK MINIS", "categoria": "Alfajores y Conitos", "cantidad": 136.0, "total": 3085725.0}, {"nombre": "ALFAJOR ENTRE DOS 60 GR", "categoria": "Alfajores y Conitos", "cantidad": 818.0, "total": 2074225.0}, {"nombre": "PROMO 3 MEDIAS DOCENAS", "categoria": "Alfajores y Conitos", "cantidad": 40.0, "total": 1543750.0}, {"nombre": "PROMO CONITOS MEDIA DOCENA", "categoria": "Alfajores y Conitos", "cantidad": 126.0, "total": 1533000.0}, {"nombre": "cafe + alfajor", "categoria": "Café", "cantidad": 344.0, "total": 1144000.0}, {"nombre": "Promo 18x12 ENTRE DOS", "categoria": "Alfajores y Conitos", "cantidad": 31.0, "total": 930000.0}, {"nombre": "ALFAJORES BLACK EDITION", "categoria": "Alfajores y Conitos", "cantidad": 295.0, "total": 907050.0}, {"nombre": "ENTRE DOS - Dulce de Leche 450 gr Vidrio.", "categoria": "Dulce De Leche", "cantidad": 116.0, "total": 778540.0}, {"nombre": "ALFAJOR PISTACHO", "categoria": "Alfajores y Conitos", "cantidad": 152.0, "total": 732700.0}, {"nombre": "ficha cafe", "categoria": "Café", "cantidad": 218.0, "total": 589500.0}, {"nombre": "ADICIONAL BLACK", "categoria": "Alfajores y Conitos", "cantidad": 971.0, "total": 530450.0}, {"nombre": "CONITOS RELLENOS DDL", "categoria": "Alfajores y Conitos", "cantidad": 212.0, "total": 483900.0}], "Café": [{"nombre": "Mendopromo Entre Dos", "cantidad": 886.0, "total": 19923000.0, "categoria": "Promociones"}, {"nombre": "Promo T. Palta Huevo", "cantidad": 1627.0, "total": 15741200.0, "categoria": "Promociones"}, {"nombre": "Menu 1", "cantidad": 857.0, "total": 14325500.0, "categoria": "Menú Almuezo"}, {"nombre": "Promo Alfajor", "cantidad": 1824.0, "total": 11126400.0, "categoria": "Promociones"}, {"nombre": "Promo Medialuna x2", "cantidad": 1594.0, "total": 10790000.0, "categoria": "Promociones"}, {"nombre": "Cafe grande", "cantidad": 2453.0, "total": 10071000.0, "categoria": "Cafeteria"}, {"nombre": "Promo Tostado", "cantidad": 783.0, "total": 7934400.0, "categoria": "Promociones"}, {"nombre": "Promo Pasteleria", "cantidad": 575.0, "total": 7829400.0, "categoria": "Promociones"}, {"nombre": "Cafe mediano", "cantidad": 2003.0, "total": 6629800.0, "categoria": "Cafeteria"}, {"nombre": "Menú 2", "cantidad": 380.0, "total": 6372500.0, "categoria": "Menú Almuezo"}, {"nombre": "Mediatardeando", "cantidad": 255.0, "total": 5499000.0, "categoria": "Promociones"}, {"nombre": "Promo Tostadas", "cantidad": 515.0, "total": 3909600.0, "categoria": "Promociones"}, {"nombre": "Promo Omelette J y Q", "cantidad": 227.0, "total": 2429500.0, "categoria": "Promociones"}, {"nombre": "Promo Yogurt", "cantidad": 212.0, "total": 2098800.0, "categoria": "Promociones"}, {"nombre": "Jugo Naranja", "cantidad": 515.0, "total": 2027200.0, "categoria": "Bebidas"}]};
+const DOCENAS      = {"Peatonal": {"2026-01": 1529.4, "2026-02": 1461.7, "2026-03": 1634.0, "2026-04": 1319.9, "2026-05": 551.4}, "9 de Julio": {"2026-01": 835.1, "2026-02": 788.0, "2026-03": 770.3, "2026-04": 748.1, "2026-05": 223.4}, "Amigorena": {"2026-01": 308.9, "2026-02": 478.0, "2026-03": 566.4, "2026-04": 641.1, "2026-05": 288.1}, "Sheraton": {"2026-01": 274.2, "2026-02": 226.9, "2026-03": 442.4, "2026-04": 236.3, "2026-05": 93.2}, "Café": {"2026-01": 62.4, "2026-02": 54.5, "2026-03": 54.0, "2026-04": 51.8, "2026-05": 17.6}};
 
-const fmtM = n => n>=1e6 ? '$'+(n/1e6).toFixed(1)+'M' : n>=1e3 ? '$'+(n/1e3).toFixed(0)+'k' : '$'+Math.round(n).toLocaleString('es-AR');
-const mlbl = {'01':'Enero','02':'Febrero','03':'Marzo','04':'Abril','05':'Mayo','06':'Junio','07':'Julio','08':'Agosto','09':'Sept','10':'Oct','11':'Nov','12':'Dic'};
-const ml   = m => (mlbl[m.slice(5)] || m) + (m.slice(5)==='05' ? '*' : '');
-const mlS  = m => ({'01':'Ene','02':'Feb','03':'Mar','04':'Abr','05':'May','06':'Jun','07':'Jul','08':'Ago','09':'Sep','10':'Oct','11':'Nov','12':'Dic'})[m.slice(5)] || m;
+const STORES  = [...new Set(DB.map(r=>r.tienda))];
+const MESES   = [...new Set(DB.map(r=>r.mes))].sort();
+const DAYS_ES = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+const MEDIO_COLORS = ['#3A6898','#2D7A52','#B87020','#5B7C9A','#7B3F00','#9B4040'];
 
-function storeData(s, months=MESES){
-  const rows = DB.filter(r=>r.tienda===s && months.includes(r.mes));
-  return {total:rows.reduce((a,r)=>a+r.total,0), tickets:rows.reduce((a,r)=>a+r.tickets,0), rows};
+Chart.defaults.color='#9B8470';Chart.defaults.borderColor='#DDD5CB';
+Chart.defaults.font.family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif";
+Chart.defaults.font.size=10;
+
+const fmtM = n=>n>=1e6?'$'+(n/1e6).toFixed(1)+'M':n>=1e3?'$'+(n/1e3).toFixed(0)+'k':'$'+Math.round(n);
+const fmtN = n=>Math.round(n).toLocaleString('es-AR');
+const fmtDoc = n=>n>=1000?(n/1000).toFixed(1)+'k doc':Math.round(n)+' doc';
+const mlbl={'01':'Enero','02':'Febrero','03':'Marzo','04':'Abril','05':'Mayo'};
+const ml  =m=>mlbl[m.slice(5)]||m;
+const mlS =m=>({'01':'Ene','02':'Feb','03':'Mar','04':'Abr','05':'May'})[m.slice(5)]||m;
+
+function storeData(s,months=MESES){
+  const rows=DB.filter(r=>r.tienda===s&&months.includes(r.mes));
+  return{total:rows.reduce((a,r)=>a+r.total,0),tickets:rows.reduce((a,r)=>a+r.tickets,0),rows};
 }
+function storeDocenas(s){
+  return MESES.reduce((a,m)=>a+(DOCENAS[s]?.[m]||0),0);
+}
+
+let charts={};
+function dc(id){if(charts[id]){charts[id].destroy();delete charts[id];}}
 
 function go(id,el){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('tab-'+id).classList.add('active');
   el.classList.add('active');
-  if(id==='meses' && !document.getElementById('mscroll').children.length) renderMeses();
+  if(id==='meses'&&!document.getElementById('mscroll').children.length) renderMeses();
 }
 
-function renderAll(){ renderResumen(); renderTiendas(); renderMacro(); }
-
+/* ---- RESUMEN ---- */
 function renderResumen(){
-  const tot   = Object.fromEntries(STORES.map(s=>[s,storeData(s)]));
-  const clean = Object.fromEntries(STORES.map(s=>[s,storeData(s,MESES.slice(0,-1))]));
-  const grand    = STORES.reduce((a,s)=>a+tot[s].total,0);
-  const grandTkt = STORES.reduce((a,s)=>a+tot[s].tickets,0);
-  document.getElementById('bTotal').textContent   = fmtM(grand);
-  document.getElementById('bPeriod').textContent  = MESES.length+' meses · '+STORES.length+' unidades';
-  document.getElementById('bTkt').textContent     = grandTkt.toLocaleString();
-  document.getElementById('bTktProm').textContent = 'Prom. '+fmtM(grand/grandTkt);
-  const leader = STORES.reduce((a,b)=>tot[a].total>tot[b].total?a:b);
-  document.getElementById('bLeader').textContent    = leader;
-  document.getElementById('bLeaderPct').textContent = (tot[leader].total/grand*100).toFixed(0)+'% del total';
+  const tot=Object.fromEntries(STORES.map(s=>[s,storeData(s)]));
+  const grand=STORES.reduce((a,s)=>a+tot[s].total,0);
+  const grandTkt=STORES.reduce((a,s)=>a+tot[s].tickets,0);
+  document.getElementById('bTotal').textContent=fmtM(grand);
+  document.getElementById('bPeriod').textContent=MESES.length+' meses · '+STORES.length+' unidades';
+  document.getElementById('bTkt').textContent=fmtN(grandTkt);
+  document.getElementById('bTktProm').textContent='Prom. '+fmtM(grand/grandTkt);
+  const leader=STORES.reduce((a,b)=>tot[a].total>tot[b].total?a:b);
+  document.getElementById('bLeader').textContent=leader;
+  document.getElementById('bLeaderPct').textContent=(tot[leader].total/grand*100).toFixed(0)+'% del total';
   let bM='',bV=0;
-  MESES.forEach(m=>{
-    const t=STORES.reduce((a,s)=>a+(DB.find(r=>r.tienda===s&&r.mes===m)?.total||0),0);
-    if(t>bV){bV=t;bM=m;}
-  });
-  document.getElementById('bBestMes').textContent = ml(bM).replace('*','');
-  document.getElementById('bBestVal').textContent = fmtM(bV)+' total red';
-  new Chart(document.getElementById('cEvol'),{type:'bar',data:{
-    labels:MESES.map(mlS),
-    datasets:STORES.map(s=>({label:s,data:MESES.map(m=>(DB.find(r=>r.tienda===s&&r.mes===m)?.total||0)/1e6),backgroundColor:(SC[s]||'#888')+'CC',borderRadius:3,borderSkipped:false}))
-  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#9B8470',font:{size:10},padding:7,boxWidth:9},position:'bottom'}},scales:{x:{stacked:true,grid:{display:false},ticks:{color:'#9B8470',font:{size:10}}},y:{stacked:true,grid:{color:'rgba(0,0,0,.05)'},ticks:{color:'#9B8470',font:{size:10},callback:v=>'$'+v+'M'}}}}});
-  new Chart(document.getElementById('cPie'),{type:'doughnut',data:{
-    labels:STORES,
-    datasets:[{data:STORES.map(s=>clean[s].total),backgroundColor:STORES.map(s=>SC[s]||'#888'),borderWidth:0,hoverOffset:4}]
-  },options:{responsive:true,maintainAspectRatio:false,cutout:'52%',plugins:{legend:{labels:{color:'#9B8470',font:{size:11},padding:9,boxWidth:11},position:'right'}}}});
+  MESES.forEach(m=>{const t=STORES.reduce((a,s)=>a+(DB.find(r=>r.tienda===s&&r.mes===m)?.total||0),0);if(t>bV){bV=t;bM=m;}});
+  document.getElementById('bBestMes').textContent=ml(bM);
+  document.getElementById('bBestVal').textContent=fmtM(bV)+' total red';
+
+  dc('cEvol');
+  charts['cEvol']=new Chart(document.getElementById('cEvol'),{type:'bar',
+    data:{labels:MESES.map(mlS),datasets:STORES.map(s=>({label:s,data:MESES.map(m=>(DB.find(r=>r.tienda===s&&r.mes===m)?.total||0)/1e6),backgroundColor:(SC[s]||'#888')+'CC',borderRadius:3,borderSkipped:false}))},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#9B8470',font:{size:10},padding:7,boxWidth:9},position:'bottom'}},
+      scales:{x:{stacked:true,grid:{display:false},ticks:{color:'#9B8470',font:{size:10}}},y:{stacked:true,grid:{color:'rgba(0,0,0,.05)'},ticks:{color:'#9B8470',font:{size:10},callback:v=>'$'+v.toFixed(0)+'M'}}}}});
+
+  dc('cPie');
+  const t2=STORES.map(s=>storeData(s,MESES.slice(0,-1)).total);
+  charts['cPie']=new Chart(document.getElementById('cPie'),{type:'doughnut',
+    data:{labels:STORES,datasets:[{data:t2,backgroundColor:STORES.map(s=>(SC[s]||'#888')+'DD'),borderColor:STORES.map(s=>SC[s]||'#888'),borderWidth:2,hoverOffset:8}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#9B8470',font:{size:10},padding:8,boxWidth:9},position:'bottom'},
+      tooltip:{callbacks:{label:ctx=>` ${ctx.label}: ${fmtM(ctx.raw)} (${(ctx.raw/t2.reduce((a,b)=>a+b)*100).toFixed(0)}%)`}}}}});
+
+  dc('cPromResumen');
+  charts['cPromResumen']=new Chart(document.getElementById('cPromResumen'),{type:'line',
+    data:{labels:MESES.map(mlS),datasets:STORES.map(s=>({label:s,data:MESES.map(m=>DB.find(r=>r.tienda===s&&r.mes===m)?.ticket_prom||null),borderColor:SC[s]||'#888',backgroundColor:(SC[s]||'#888')+'15',tension:.35,pointRadius:4,pointBackgroundColor:SC[s]||'#888',fill:false,borderWidth:2,spanGaps:true}))},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#9B8470',font:{size:10},padding:7,boxWidth:9},position:'bottom'},tooltip:{callbacks:{label:ctx=>` ${ctx.dataset.label}: $${fmtN(ctx.raw)}`}}},
+      scales:{x:{grid:{display:false},ticks:{color:'#9B8470',font:{size:10}}},y:{grid:{color:'rgba(0,0,0,.05)'},ticks:{color:'#9B8470',font:{size:10},callback:v=>'$'+Math.round(v/1000)+'k'}}}}});
 }
+
+/* ---- TIENDAS ---- */
+let selStore=null;
+let sdCharts={};
+function dsd(id){if(sdCharts[id]){sdCharts[id].destroy();delete sdCharts[id];}}
 
 function renderTiendas(){
-  const tot   = Object.fromEntries(STORES.map(s=>[s,storeData(s)]));
-  const grand = STORES.reduce((a,s)=>a+tot[s].total,0);
-  const sl = document.getElementById('storeList'); sl.innerHTML='';
+  const tot=Object.fromEntries(STORES.map(s=>[s,storeData(s)]));
+  const grand=STORES.reduce((a,s)=>a+tot[s].total,0);
+  const sl=document.getElementById('storeList'); sl.innerHTML='';
   [...STORES].sort((a,b)=>tot[b].total-tot[a].total).forEach(s=>{
-    const d = tot[s];
-    const sorted = MESES.slice().sort();
-    const last=sorted[sorted.length-1], prev=sorted[sorted.length-2];
-    const vLast = DB.find(r=>r.tienda===s&&r.mes===last)?.total||0;
-    const vPrev = DB.find(r=>r.tienda===s&&r.mes===prev)?.total||0;
-    const trend = vPrev ? ((vLast-vPrev)/vPrev*100) : 0;
-    const pct   = (d.total/grand*100).toFixed(0);
-    const unit  = s==='Café' ? 'mesas' : 'tickets';
-    sl.innerHTML += `<div class="scard" style="border-left-color:${SC[s]||'#888'};cursor:pointer" onclick="showStoreDetail('${s}')">
+    const d=tot[s];
+    const sorted=MESES.slice().sort();
+    const last=sorted[sorted.length-1],prev=sorted[sorted.length-2];
+    const vLast=DB.find(r=>r.tienda===s&&r.mes===last)?.total||0;
+    const vPrev=DB.find(r=>r.tienda===s&&r.mes===prev)?.total||0;
+    const trend=vPrev?((vLast-vPrev)/vPrev*100):0;
+    const pct=(d.total/grand*100).toFixed(0);
+    const unit=s==='Café'?'mesas':'tickets';
+    const docTot=storeDocenas(s);
+    const docBadge=s!=='Café'?`<div class="doc-badge">📦 <span>${fmtN(docTot)}</span> docenas</div>`:'';
+    sl.innerHTML+=`<div class="scard" id="scard-${s.replace(/ /g,'_')}" style="border-left-color:${SC[s]||'#888'}" onclick="selectStore('${s}')">
       <div class="sm">${MEDALS[s]||'🏪'}</div>
       <div class="sl"><div class="sn" style="color:${SC[s]||'#888'}">${s}</div>
         <div class="sv">${fmtM(d.total)}</div>
-        <div class="ss">${d.tickets.toLocaleString()} ${unit} · ${d.rows.length} meses</div></div>
+        <div class="ss">${fmtN(d.tickets)} ${unit} · ${d.rows.length} meses</div>
+        ${docBadge}</div>
       <div class="sr"><div class="trend ${trend>=0?'up':'dn'}">${trend>=0?'▲':'▼'}${Math.abs(trend).toFixed(0)}%</div>
-        <div class="spct">${pct}% del total</div></div></div>`;
+        <div class="spct">${pct}% del total</div></div>
+    </div>`;
   });
-  new Chart(document.getElementById('cTkt'),{type:'line',data:{
-    labels:MESES.map(mlS),
-    datasets:STORES.map(s=>({label:s,data:MESES.map(m=>DB.find(r=>r.tienda===s&&r.mes===m)?.ticket_prom||null),borderColor:SC[s]||'#888',backgroundColor:(SC[s]||'#888')+'22',tension:.35,pointRadius:4,pointBackgroundColor:SC[s]||'#888',fill:false,borderWidth:2,spanGaps:true}))
-  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#9B8470',font:{size:10},padding:7,boxWidth:9},position:'bottom'}},scales:{x:{grid:{display:false},ticks:{color:'#9B8470',font:{size:10}}},y:{grid:{color:'rgba(0,0,0,.05)'},ticks:{color:'#9B8470',font:{size:10},callback:v=>'$'+Math.round(v/1000)+'k'}}}}});
+
+  dc('cTkt');
+  charts['cTkt']=new Chart(document.getElementById('cTkt'),{type:'line',
+    data:{labels:MESES.map(mlS),datasets:STORES.map(s=>({label:s,data:MESES.map(m=>DB.find(r=>r.tienda===s&&r.mes===m)?.ticket_prom||null),borderColor:SC[s]||'#888',backgroundColor:(SC[s]||'#888')+'22',tension:.35,pointRadius:4,pointBackgroundColor:SC[s]||'#888',fill:false,borderWidth:2,spanGaps:true}))},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#9B8470',font:{size:10},padding:7,boxWidth:9},position:'bottom'},tooltip:{callbacks:{label:ctx=>` ${ctx.dataset.label}: $${fmtN(ctx.raw)}`}}},
+      scales:{x:{grid:{display:false},ticks:{color:'#9B8470',font:{size:10}}},y:{grid:{color:'rgba(0,0,0,.05)'},ticks:{color:'#9B8470',font:{size:10},callback:v=>'$'+Math.round(v/1000)+'k'}}}}});
+
+  dc('cDocenas');
+  const alfStores=STORES.filter(s=>s!=='Café');
+  charts['cDocenas']=new Chart(document.getElementById('cDocenas'),{type:'bar',
+    data:{labels:MESES.map(mlS),datasets:alfStores.map(s=>({label:s,data:MESES.map(m=>DOCENAS[s]?.[m]||0),backgroundColor:(SC[s]||'#888')+'CC',borderRadius:3,borderSkipped:false}))},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#9B8470',font:{size:10},padding:7,boxWidth:9},position:'bottom'},tooltip:{callbacks:{label:ctx=>` ${ctx.dataset.label}: ${fmtN(ctx.raw)} doc`}}},
+      scales:{x:{stacked:true,grid:{display:false},ticks:{color:'#9B8470',font:{size:10}}},y:{stacked:true,ticks:{color:'#9B8470',font:{size:10},callback:v=>v+' doc'}}}}});
 }
 
-let selMes = null;
+function selectStore(s){
+  selStore=s;
+  const color=SC[s]||'#888';
+  document.querySelectorAll('.scard').forEach(c=>c.classList.remove('sel'));
+  const cardEl=document.getElementById('scard-'+s.replace(/ /g,'_'));
+  if(cardEl){cardEl.classList.add('sel');cardEl.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  const d=storeData(s);
+  const unit=s==='Café'?'mesas':'tickets';
+  const detail=document.getElementById('storeDetail');
+  detail.style.display='block';
+  detail.style.borderTopColor=color;
+  detail.style.borderTopWidth='3px';
+  detail.style.borderTopStyle='solid';
+  const docTot=storeDocenas(s);
+  document.getElementById('sdHeader').innerHTML=`
+    <div style="width:10px;height:10px;border-radius:50%;background:${color};flex-shrink:0"></div>
+    <div><div class="sd-name" style="color:${color}">${MEDALS[s]||'🏪'} ${s}</div>
+    <div class="sd-stats"><span>${fmtM(d.total)} · ${fmtN(d.tickets)} ${unit} · prom ${fmtM(d.total/d.tickets)}/${unit.slice(0,-1)}${s!=='Café'?' · 📦 '+fmtN(docTot)+' docenas':''}</span></div></div>`;
+  const sorted2=MESES.slice().sort();
+  const lastM=sorted2[sorted2.length-2],prevM=sorted2[sorted2.length-3];
+  const vLast=DB.find(r=>r.tienda===s&&r.mes===lastM)?.total||0;
+  const vPrev=DB.find(r=>r.tienda===s&&r.mes===prevM)?.total||0;
+  const chg=vPrev?((vLast-vPrev)/vPrev*100):0;
+  document.getElementById('sdKpis').innerHTML=`
+    <div class="sd-kpi"><div class="sd-kpi-v">${fmtM(d.total)}</div><div class="sd-kpi-l">Facturación total</div></div>
+    <div class="sd-kpi"><div class="sd-kpi-v">${fmtN(d.tickets)}</div><div class="sd-kpi-l">${unit}</div></div>
+    <div class="sd-kpi"><div class="sd-kpi-v">$${fmtN(d.total/d.tickets)}</div><div class="sd-kpi-l">Prom / ${unit.slice(0,-1)}</div></div>
+    ${s!=='Café'?`<div class="sd-kpi" style="border:1px solid var(--border);border-top:2px solid var(--brown)"><div class="sd-kpi-v" style="color:var(--brown)">${fmtN(docTot)}</div><div class="sd-kpi-l">📦 docenas total</div></div>`
+    :`<div class="sd-kpi"><div class="sd-kpi-v" style="color:${chg>=0?'var(--green)':'var(--red)'}">${chg>=0?'▲':'▼'}${Math.abs(chg).toFixed(1)}%</div><div class="sd-kpi-l">vs mes anterior</div></div>`}`;
+  document.querySelectorAll('.sd-stab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.sd-stab')[0].classList.add('active');
+  document.querySelectorAll('.sd-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('sdp-mensual').classList.add('active');
+  detail.scrollIntoView({behavior:'smooth',block:'start'});
+  setTimeout(()=>renderSdMensual(s),80);
+}
+
+function sdTab(tab,el){
+  document.querySelectorAll('.sd-stab').forEach(b=>b.classList.remove('active'));el.classList.add('active');
+  document.querySelectorAll('.sd-panel').forEach(p=>p.classList.remove('active'));document.getElementById('sdp-'+tab).classList.add('active');
+  const s=selStore; if(!s)return;
+  if(tab==='mensual')renderSdMensual(s);
+  else if(tab==='hora')renderSdHora(s);
+  else if(tab==='dia')renderSdDia(s);
+  else if(tab==='productos')renderSdProductos(s);
+  else if(tab==='pagos')renderSdPagos(s);
+}
+
+function renderSdMensual(s){
+  const color=SC[s]||'#888';
+  const rows=MESES.map(m=>DB.find(r=>r.tienda===s&&r.mes===m)).filter(Boolean);
+  dsd('cStoreMes');
+  sdCharts['cStoreMes']=new Chart(document.getElementById('cStoreMes'),{type:'bar',
+    data:{labels:rows.map(r=>mlS(r.mes)),datasets:[{label:'Facturación',data:rows.map(r=>r.total),backgroundColor:color+'BB',borderColor:color,borderWidth:1,borderRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>fmtM(ctx.raw)}}},
+      scales:{x:{grid:{display:false},ticks:{color:'#9B8470',font:{size:10}}},y:{ticks:{color:'#9B8470',font:{size:10},callback:v=>fmtM(v)},beginAtZero:true}}}});
+  const unit=s==='Café'?'mesas':'tickets';
+  document.getElementById('tStoreMes').innerHTML=rows.map(r=>{
+    const doc=DOCENAS[s]?.[r.mes]||0;
+    return`<tr><td style="font-weight:600;color:var(--brown2)">${ml(r.mes)}</td>
+    <td>${fmtM(r.total)}</td><td>${fmtN(r.tickets)} ${unit}</td><td>$${fmtN(r.ticket_prom)}</td>
+    <td class="doc-col">${s!=='Café'?fmtN(doc)+'&nbsp;doc':'—'}</td></tr>`;
+  }).join('');
+}
+
+function renderSdHora(s){
+  const color=SC[s]||'#888';
+  const raw=HOURLY_ALL[s]||{};
+  const hours=Array.from({length:24},(_,i)=>raw[i]||0);
+  dsd('cStoreHora');
+  sdCharts['cStoreHora']=new Chart(document.getElementById('cStoreHora'),{type:'bar',
+    data:{labels:Array.from({length:24},(_,i)=>i+'h'),datasets:[{label:s,data:hours,backgroundColor:hours.map((_,i)=>(i>=11&&i<=14||i>=17&&i<=20)?color:color+'55'),borderRadius:3}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>fmtM(ctx.raw)}}},
+      scales:{x:{grid:{display:false},ticks:{color:'#9B8470',font:{size:9}}},y:{ticks:{callback:v=>fmtM(v)},beginAtZero:true}}}});
+  const maxH=Math.max(...hours);
+  document.getElementById('horaBarsPeak').innerHTML=hours.map((v,i)=>({h:i,v})).sort((a,b)=>b.v-a.v).slice(0,6).map(x=>`
+    <div class="hora-bar-row"><div class="hora-lbl">${x.h}:00</div>
+    <div class="hora-track"><div class="hora-fill" style="width:${maxH?(x.v/maxH*100).toFixed(0):0}%;background:${color}"></div></div>
+    <div class="hora-val">${fmtM(x.v)}</div></div>`).join('');
+}
+
+function renderSdDia(s){
+  const color=SC[s]||'#888';
+  const raw=DOW_ALL[s]||{};
+  const days=Array.from({length:7},(_,i)=>raw[i]||0);
+  dsd('cStoreDia');
+  sdCharts['cStoreDia']=new Chart(document.getElementById('cStoreDia'),{type:'bar',
+    data:{labels:DAYS_ES,datasets:[{label:s,data:days,backgroundColor:days.map((_,i)=>(i===4||i===5)?color:color+'77'),borderRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>fmtM(ctx.raw)}}},
+      scales:{x:{grid:{display:false},ticks:{color:'#9B8470',font:{size:10}}},y:{ticks:{callback:v=>fmtM(v)},beginAtZero:true}}}});
+  const maxD=Math.max(...days);
+  document.getElementById('diaBarsPeak').innerHTML=DAYS_ES.map((lbl,i)=>`
+    <div class="hora-bar-row"><div class="hora-lbl">${lbl}</div>
+    <div class="hora-track"><div class="hora-fill" style="width:${maxD?(days[i]/maxD*100).toFixed(0):0}%;background:${color}"></div></div>
+    <div class="hora-val">${fmtM(days[i])}</div></div>`).join('');
+}
+
+function renderSdProductos(s){
+  const color=SC[s]||'#888';
+  const prods=(TOP_PRODS_ALL[s]||[]).slice(0,12);
+  const maxV=prods[0]?.total||1;
+  document.getElementById('prodBars').innerHTML=prods.map((p,i)=>`
+    <div class="prod-row"><div class="prod-rank">${i+1}</div>
+    <div class="prod-lbl" title="${p.nombre}">${p.nombre}</div>
+    <div class="prod-track"><div class="prod-fill" style="width:${(p.total/maxV*100).toFixed(0)}%;background:${i<3?color:color+'88'}"></div></div>
+    <div class="prod-val">${fmtM(p.total)}</div></div>`).join('');
+  dsd('cStoreProds');
+  const top6=prods.slice(0,6);
+  sdCharts['cStoreProds']=new Chart(document.getElementById('cStoreProds'),{type:'bar',
+    data:{labels:top6.map(p=>p.nombre.length>28?p.nombre.slice(0,28)+'…':p.nombre),datasets:[{data:top6.map(p=>p.total),backgroundColor:top6.map((_,i)=>i<3?color:color+'88'),borderRadius:3}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>' $'+fmtN(ctx.raw)}}},
+      scales:{x:{ticks:{callback:v=>fmtM(v)},beginAtZero:true},y:{ticks:{color:'#9B8470',font:{size:9}}}}}});
+}
+
+function renderSdPagos(s){
+  const color=SC[s]||'#888';
+  const raw=MEDIOS_ALL[s]||{};
+  const labels=Object.keys(raw).slice(0,6);
+  const values=labels.map(k=>raw[k]);
+  const total=values.reduce((a,b)=>a+b,0);
+  dsd('cStorePagos');
+  sdCharts['cStorePagos']=new Chart(document.getElementById('cStorePagos'),{type:'doughnut',
+    data:{labels,datasets:[{data:values,backgroundColor:MEDIO_COLORS.slice(0,labels.length),borderWidth:2,borderColor:'#fff',hoverOffset:8}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#9B8470',font:{size:10},padding:6,boxWidth:9},position:'bottom'},
+      tooltip:{callbacks:{label:ctx=>` ${ctx.label}: ${fmtM(ctx.raw)} (${(ctx.raw/total*100).toFixed(0)}%)`}}}}});
+  document.getElementById('pagoRows').innerHTML=labels.map((lbl,i)=>`
+    <div class="pago-row"><div class="pago-dot" style="background:${MEDIO_COLORS[i%MEDIO_COLORS.length]}"></div>
+    <div class="pago-lbl">${lbl}</div>
+    <div class="pago-track"><div class="pago-fill" style="width:${(values[i]/values[0]*100).toFixed(0)}%;background:${MEDIO_COLORS[i%MEDIO_COLORS.length]}"></div></div>
+    <div class="pago-val">${fmtM(values[i])}</div>
+    <div class="pago-pct">${(values[i]/total*100).toFixed(0)}%</div></div>`).join('');
+}
+
+/* ---- MESES ---- */
+let selMes=null;
 function renderMeses(){
-  if(!selMes) selMes = MESES[MESES.length-2] || MESES[0];
-  const sc = document.getElementById('mscroll'); sc.innerHTML='';
+  if(!selMes) selMes=MESES[MESES.length-2]||MESES[0];
+  const sc=document.getElementById('mscroll'); sc.innerHTML='';
   MESES.forEach(m=>{
-    const t   = STORES.reduce((a,s)=>a+(DB.find(r=>r.tienda===s&&r.mes===m)?.total||0),0);
-    const tkt = STORES.reduce((a,s)=>a+(DB.find(r=>r.tienda===s&&r.mes===m)?.tickets||0),0);
-    sc.innerHTML += `<div class="mc ${m===selMes?'sel':''}" onclick="pickMes('${m}',this)">
-      <div class="mm">${ml(m)}</div><div class="mv">${fmtM(t)}</div><div class="ms">${tkt.toLocaleString()} tkts</div></div>`;
+    const t=STORES.reduce((a,s)=>a+(DB.find(r=>r.tienda===s&&r.mes===m)?.total||0),0);
+    const tkt=STORES.reduce((a,s)=>a+(DB.find(r=>r.tienda===s&&r.mes===m)?.tickets||0),0);
+    sc.innerHTML+=`<div class="mc ${m===selMes?'sel':''}" onclick="pickMes('${m}',this)">
+      <div class="mm">${ml(m)}</div><div class="mv">${fmtM(t)}</div><div class="ms">${fmtN(tkt)} tkts</div></div>`;
   });
-  renderMesDetail(selMes);
+  renderMesDetail(selMes); renderMesBar(selMes);
 }
-function pickMes(m,el){ selMes=m; document.querySelectorAll('.mc').forEach(c=>c.classList.remove('sel')); el.classList.add('sel'); renderMesDetail(m); }
+function pickMes(m,el){selMes=m;document.querySelectorAll('.mc').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');renderMesDetail(m);renderMesBar(m);}
 function renderMesDetail(m){
-  const sorted = [...STORES].sort((a,b)=>(DB.find(r=>r.tienda===b&&r.mes===m)?.total||0)-(DB.find(r=>r.tienda===a&&r.mes===m)?.total||0));
-  const total  = sorted.reduce((a,s)=>a+(DB.find(r=>r.tienda===s&&r.mes===m)?.total||0),0);
-  let h = `<div class="mdetail"><div class="mdh">${ml(m)} · total ${fmtM(total)}</div>`;
+  const sorted=[...STORES].sort((a,b)=>(DB.find(r=>r.tienda===b&&r.mes===m)?.total||0)-(DB.find(r=>r.tienda===a&&r.mes===m)?.total||0));
+  const total=sorted.reduce((a,s)=>a+(DB.find(r=>r.tienda===s&&r.mes===m)?.total||0),0);
+  let h=`<div class="mdetail"><div class="mdh">${ml(m)} · total ${fmtM(total)}</div>`;
   sorted.forEach(s=>{
-    const d = DB.find(r=>r.tienda===s&&r.mes===m);
-    if(!d) return;
-    const unit = s==='Café' ? 'mesas' : 'tkts';
-    h += `<div class="mdr"><div class="mdd" style="background:${SC[s]||'#888'}"></div>
-      <div class="mdsn">${s}</div><div><div class="mdv">${fmtM(d.total)}</div>
-      <div class="mdt">${d.tickets} ${unit} · ${fmtM(d.ticket_prom)}/${unit.slice(0,-1)}</div></div></div>`;
+    const d=DB.find(r=>r.tienda===s&&r.mes===m);
+    if(!d)return;
+    const unit=s==='Café'?'mesas':'tkts';
+    const doc=DOCENAS[s]?.[m]||0;
+    h+=`<div class="mdr"><div class="mdd" style="background:${SC[s]||'#888'}"></div>
+      <div class="mdsn">${s}</div>
+      <div><div class="mdv">${fmtM(d.total)}</div>
+      <div class="mdt">${fmtN(d.tickets)} ${unit} · ${fmtM(d.ticket_prom)}/${unit.slice(0,-1)}${s!=='Café'?' · 📦 '+fmtN(doc)+' doc':''}</div></div></div>`;
   });
-  h += `</div>`; document.getElementById('mdetail').innerHTML=h;
+  h+='</div>'; document.getElementById('mdetail').innerHTML=h;
+}
+function renderMesBar(m){
+  dc('cMesBar');
+  const srtd=[...STORES].sort((a,b)=>(DB.find(r=>r.tienda===b&&r.mes===m)?.total||0)-(DB.find(r=>r.tienda===a&&r.mes===m)?.total||0));
+  charts['cMesBar']=new Chart(document.getElementById('cMesBar'),{type:'bar',
+    data:{labels:srtd,datasets:[{label:'Facturación',data:srtd.map(s=>DB.find(r=>r.tienda===s&&r.mes===m)?.total||0),backgroundColor:srtd.map(s=>(SC[s]||'#888')+'CC'),borderRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>fmtM(ctx.raw)}}},
+      scales:{x:{grid:{display:false},ticks:{color:'#9B8470',font:{size:10}}},y:{ticks:{callback:v=>fmtM(v)},beginAtZero:true}}}});
 }
 
+/* ---- MACRO ---- */
 function renderMacro(){
-  new Chart(document.getElementById('cMacro'),{type:'bar',data:{
-    labels:KPI_MESES.map(m=>m.m),
-    datasets:[{label:'% Resultado',data:KPI_MESES.map(m=>m.res),backgroundColor:KPI_MESES.map(m=>m.res>60?'#1E7A4888':m.res<40?'#B0303088':'#A0601088'),borderRadius:4}]
-  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{color:'#9B8470',font:{size:10}}},y:{grid:{color:'rgba(0,0,0,.05)'},ticks:{color:'#9B8470',font:{size:10},callback:v=>v+'%'},min:0,max:100}}}});
-  document.getElementById('tMacro').innerHTML = KPI_MESES.map(m=>`<tr><td style="font-weight:600;color:var(--brown)">${m.m}</td><td>$${Math.round(m.e2/1e6)}M</td><td>$${Math.round(m.neto/1e6)}M</td><td><span class="badge ${m.res>60?'up':m.res<40?'dn':'fl'}">${m.res.toFixed(1)}%</span></td></tr>`).join('');
+  dc('cMacro2026');
+  charts['cMacro2026']=new Chart(document.getElementById('cMacro2026'),{type:'bar',
+    data:{labels:MESES.map(mlS),datasets:STORES.map(s=>({label:s,data:MESES.map(m=>(DB.find(r=>r.tienda===s&&r.mes===m)?.total||0)/1e6),backgroundColor:(SC[s]||'#888')+'CC',borderRadius:3,borderSkipped:false}))},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#9B8470',font:{size:10},padding:7,boxWidth:9},position:'bottom'}},
+      scales:{x:{stacked:true,grid:{display:false},ticks:{color:'#9B8470',font:{size:10}}},y:{stacked:true,ticks:{callback:v=>'$'+v.toFixed(0)+'M'}}}}});
+  document.getElementById('tMacro').innerHTML=KPI_MESES.map(m=>`<tr>
+    <td style="font-weight:600;color:var(--brown)">${m.m}</td>
+    <td>$${Math.round(m.e2/1e6)}M</td><td>$${Math.round(m.neto/1e6)}M</td></tr>`).join('');
 }
 
-function showStoreDetail(s){
-  const det = document.getElementById('storeDetail');
-  // toggle off if same store
-  if(det.dataset.store===s && det.style.display!=='none'){ det.style.display='none'; det.dataset.store=''; return; }
-  det.dataset.store = s;
-  const unit = s==='Café' ? 'mesa' : 'ticket';
-  const color = SC[s]||'#888';
-  const rows = DB.filter(r=>r.tienda===s).sort((a,b)=>a.mes.localeCompare(b.mes));
-  let h = `<div class="mdetail"><div class="mdh" style="color:${color}">${s} · Detalle mensual</div>`;
-  h += `<div style="overflow-x:auto"><table style="min-width:280px">
-    <thead><tr><th>Mes</th><th>Facturación</th><th>${unit[0].toUpperCase()+unit.slice(1)}s</th><th>Prom/${unit}</th></tr></thead><tbody>`;
-  let prevTotal = 0;
-  rows.forEach((r,i)=>{
-    const vs = i>0 ? ((r.total-rows[i-1].total)/rows[i-1].total*100) : null;
-    const badge = vs!==null ? `<span class="badge ${vs>=0?'up':'dn'}">${vs>=0?'▲':'▼'}${Math.abs(vs).toFixed(0)}%</span>` : '';
-    h += `<tr><td style="font-weight:600;color:${color}">${ml(r.mes)}</td><td>${fmtM(r.total)} ${badge}</td><td>${r.tickets.toLocaleString()}</td><td>${fmtM(r.ticket_prom)}</td></tr>`;
-  });
-  const total = rows.reduce((a,r)=>a+r.total,0);
-  const tkts  = rows.reduce((a,r)=>a+r.tickets,0);
-  h += `</tbody><tfoot><tr><td>TOTAL</td><td>${fmtM(total)}</td><td>${tkts.toLocaleString()}</td><td>${fmtM(Math.round(total/tkts))}</td></tr></tfoot>`;
-  h += `</table></div></div>`;
-  det.innerHTML = h;
-  det.style.display = 'block';
-  det.scrollIntoView({behavior:'smooth', block:'nearest'});
-}
-
-
+/* ---- INIT ---- */
 function init(){
-  document.getElementById('dot').className       = 'dot';
-  document.getElementById('pillTxt').textContent = 'Actualizado';
-  document.getElementById('statusBar').textContent = '✅ Ene–May 2026 · 4 tiendas + 1 café · datos incorporados';
-  try { renderAll(); } catch(e){ console.error('renderAll error:', e); }
+  document.getElementById('dot').className='dot';
+  document.getElementById('pillTxt').textContent='Actualizado';
+  document.getElementById('statusBar').textContent='✅ Ene–May 2026 · 4 tiendas + 1 café · datos incorporados';
+  renderResumen(); renderTiendas(); renderMacro();
+  document.getElementById('loadScreen').style.display='none';
+  document.getElementById('app').style.display='block';
 }
-
 init();
 </script>
 </body>
