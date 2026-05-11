@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Entre Dos · Dashboard</title>
+<style>
+:root{color-scheme:light;--bg:#F4F0EB;--card:#FFF;--card2:#F2EDE8;--border:#DDD5CB;--border-lt:#EDE7E1;--brown:#5C3D2B;--brown2:#7A5440;--brown-bg:rgba(92,61,43,.07);--text:#1E160F;--text2:#5C4535;--text3:#9B8470;--text4:#C4AD99;--green:#1E7A48;--red:#B03030;--green-bg:rgba(30,122,72,.10);--red-bg:rgba(176,48,48,.10);}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding-bottom:20px;min-height:100vh}
+.hdr{background:linear-gradient(135deg,#3D2314,#5C3D2B 55%,#7A5440);padding:18px 16px 14px;position:sticky;top:0;z-index:20;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.hdr-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.logo{font-family:Georgia,serif;font-size:21px;color:#fff}.logo em{font-style:italic;color:rgba(255,255,255,.6)}
+.logo-sub{font-size:9px;color:rgba(255,255,255,.35);letter-spacing:.18em;text-transform:uppercase;margin-top:1px}
+.pill{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.15);padding:6px 11px;border-radius:20px;font-size:10.5px;color:rgba(255,255,255,.65)}
+.dot{width:7px;height:7px;border-radius:50%;background:#4ADE80;flex-shrink:0}
+.dot.err{background:#F87171}
+.status{font-size:10px;color:rgba(255,255,255,.4);background:rgba(0,0,0,.15);border-radius:6px;padding:5px 10px}
+.tabs{display:flex;background:var(--card);border-bottom:2px solid var(--border);overflow-x:auto;scrollbar-width:none;position:sticky;top:86px;z-index:15}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:1;min-width:72px;padding:11px 6px;text-align:center;font-size:11.5px;font-weight:600;color:var(--text3);border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;white-space:nowrap}
+.tab.active{color:var(--brown);border-bottom-color:var(--brown)}
+.page{display:none;padding:14px}.page.active{display:block}
+
+
+/* BANNER */
+.banner{background:linear-gradient(135deg,#2a1509,#4a2e1a,#6B4930);border-radius:14px;padding:18px;margin-bottom:14px;box-shadow:0 4px 14px rgba(92,61,43,.2)}
+.banner-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+.b-lbl{font-size:9px;color:rgba(255,255,255,.45);letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px;font-weight:600}
+.b-val{font-size:25px;font-weight:700;color:#fff;font-family:Georgia,serif;line-height:1;letter-spacing:-.5px}
+.b-sub{font-size:10px;color:rgba(255,255,255,.4);margin-top:3px}
+.banner-title{font-size:10.5px;color:rgba(255,255,255,.45);letter-spacing:.1em;text-transform:uppercase;font-weight:600}
+
+/* SECTION */
+.sec{font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text4);margin:16px 0 10px;display:flex;align-items:center;gap:8px}
+.sec::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* STORE CARDS */
+.store-list{display:flex;flex-direction:column;gap:10px}
+.scard{background:var(--card);border:1px solid var(--border);border-left:4px solid;border-radius:12px;padding:13px 15px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 3px rgba(92,61,43,.06)}
+.sm{font-size:17px;flex-shrink:0}
+.sl{flex:1}
+.sn{font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:3px}
+.sv{font-size:25px;font-weight:700;font-family:Georgia,serif;letter-spacing:-.5px;line-height:1}
+.ss{font-size:10.5px;color:var(--text3);margin-top:3px}
+.sr{text-align:right;flex-shrink:0}
+.trend{font-size:11.5px;font-weight:700;padding:3px 7px;border-radius:6px;display:inline-block}
+.trend.up{background:var(--green-bg);color:var(--green)}.trend.dn{background:var(--red-bg);color:var(--red)}
+.spct{font-size:9.5px;color:var(--text4);margin-top:3px}
+
+/* CHART */
+.cc{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px;margin-bottom:11px;box-shadow:0 1px 3px rgba(92,61,43,.06)}
+.cl{font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:11px}
+
+/* MES */
+.mscroll{display:flex;gap:8px;overflow-x:auto;padding-bottom:3px;scrollbar-width:none;margin-bottom:11px}
+.mscroll::-webkit-scrollbar{display:none}
+.mc{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:11px 13px;flex:0 0 120px;cursor:pointer}
+.mc.sel{border-color:var(--brown);background:var(--brown-bg)}
+.mm{font-size:9px;color:var(--text4);text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:3px}
+.mv{font-size:18px;font-weight:700;font-family:Georgia,serif;letter-spacing:-.3px}
+.ms{font-size:9.5px;color:var(--text3);margin-top:2px}
+.mdetail{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.mdh{padding:9px 13px;background:var(--bg);border-bottom:1px solid var(--border);font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text3)}
+.mdr{display:flex;align-items:center;padding:10px 13px;border-bottom:1px solid var(--border-lt);gap:10px}
+.mdr:last-child{border-bottom:none}
+.mdd{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.mdsn{flex:1;font-size:13px;font-weight:600;color:var(--text2)}
+.mdv{font-size:13.5px;font-weight:700;font-family:Georgia,serif}
+.mdt{font-size:9.5px;color:var(--text4);margin-top:1px;text-align:right}
+
+/* MACRO */
+.krow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:11px}
+.kc{background:var(--card);border:1px solid var(--border);border-top:3px solid var(--brown);border-radius:12px;padding:13px}
+.kl{font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);margin-bottom:5px}
+.kv{font-size:21px;font-weight:700;font-family:Georgia,serif;letter-spacing:-.4px}
+.ks{font-size:10px;color:var(--text3);margin-top:3px}
+.tscroll{overflow-x:auto;border-radius:12px;box-shadow:0 1px 3px rgba(92,61,43,.06);margin-bottom:11px}
+table{width:100%;border-collapse:collapse;background:var(--card);min-width:320px}
+th{padding:8px 10px;text-align:left;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text4);border-bottom:2px solid var(--border);background:var(--bg)}
+td{padding:8px 10px;border-bottom:1px solid var(--border-lt);font-size:12px;color:var(--text2)}
+tr:last-child td{border-bottom:none}
+tfoot td{background:var(--card2);font-weight:700;color:var(--brown)}
+.badge{display:inline-block;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:700}
+.badge.up{background:var(--green-bg);color:var(--green)}.badge.dn{background:var(--red-bg);color:var(--red)}.badge.fl{background:var(--card2);color:var(--text3)}
+</style>
+</head>
+<body>
+
+<div id="app">
+<div class="hdr">
+  <div class="hdr-row">
+    <div><div class="logo">Entre <em>Dos</em></div><div class="logo-sub">Red de tiendas</div></div>
+    <div class="pill"><div class="dot" id="dot"></div><span id="pillTxt">—</span></div>
+  </div>
+  <div class="status" id="statusBar">Cargando...</div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="go('resumen',this)">📊 Resumen</div>
+  <div class="tab" onclick="go('tiendas',this)">🏪 Tiendas</div>
+  <div class="tab" onclick="go('meses',this)">📅 Meses</div>
+  <div class="tab" onclick="go('macro',this)">🏢 Macro</div>
+</div>
+
+<div class="page active" id="tab-resumen">
+  <div class="banner">
+    <div class="banner-title" id="bannerTitle">Red completa · Ene–May 2026</div>
+    <div class="banner-grid">
+      <div><div class="b-lbl">Facturación total</div><div class="b-val" id="bTotal">—</div><div class="b-sub" id="bPeriod">—</div></div>
+      <div><div class="b-lbl">Tickets / Mesas</div><div class="b-val" id="bTkt">—</div><div class="b-sub" id="bTktProm">—</div></div>
+      <div><div class="b-lbl">Unidad líder</div><div class="b-val" id="bLeader" style="font-size:19px">—</div><div class="b-sub" id="bLeaderPct">—</div></div>
+      <div><div class="b-lbl">Mejor mes</div><div class="b-val" id="bBestMes" style="font-size:19px">—</div><div class="b-sub" id="bBestVal">—</div></div>
+    </div>
+  </div>
+  <div class="sec">Evolución mensual</div>
+  <div class="cc"><div class="cl">Ventas por unidad · millones $</div><div style="position:relative;height:210px"><canvas id="cEvol"></canvas></div></div>
+  <div class="sec">Participación</div>
+  <div class="cc"><div class="cl">Por unidad (meses completos)</div><div style="position:relative;height:190px"><canvas id="cPie"></canvas></div></div>
+</div>
+
+<div class="page" id="tab-tiendas">
+  <div class="sec" style="margin-top:2px">Acumulado por unidad · tocá para ver detalle</div>
+  <div class="store-list" id="storeList"></div>
+  <div id="storeDetail" style="display:none;margin-top:10px"></div>
+  <div class="sec">Ticket / Mesa promedio mensual</div>
+  <div class="cc"><div class="cl">Ticket promedio · $</div><div style="position:relative;height:190px"><canvas id="cTkt"></canvas></div></div>
+</div>
+
+<div class="page" id="tab-meses">
+  <div class="sec" style="margin-top:2px">Seleccioná un mes</div>
+  <div class="mscroll" id="mscroll"></div>
+  <div id="mdetail"></div>
+</div>
+
+<div class="page" id="tab-macro">
+  <div class="sec" style="margin-top:2px">KPIs anuales · 2025</div>
+  <div class="krow">
+    <div class="kc"><div class="kl">E2 + Alimendos</div><div class="kv">$487.6M</div><div class="ks">Facturación bruta</div></div>
+    <div class="kc"><div class="kl">Neto</div><div class="kv">$403M</div><div class="ks">Después de cargas</div></div>
+    <div class="kc"><div class="kl">Tiendas neta</div><div class="kv">$21.7M</div><div class="ks">Red de puntos</div></div>
+    <div class="kc"><div class="kl">Resultado</div><div class="kv">49%</div><div class="ks">Promedio anual</div></div>
+  </div>
+  <div class="sec">Resultado mensual 2025</div>
+  <div class="cc"><div class="cl">% Resultado por mes</div><div style="position:relative;height:170px"><canvas id="cMacro"></canvas></div></div>
+  <div class="sec">Detalle 2025</div>
+  <div class="tscroll"><table><thead><tr><th>Mes</th><th>E2+Alim</th><th>Neto</th><th>Resultado</th></tr></thead>
+  <tbody id="tMacro"></tbody>
+  <tfoot><tr><td>TOTAL</td><td>$487.6M</td><td>$403M</td><td><span class="badge fl">49.0%</span></td></tr></tfoot>
+  </table></div>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js"></script>
+<script>
+const SC = {Peatonal:'#3A6898','9 de Julio':'#2D7A52',Amigorena:'#B87020',Sheraton:'#5B7C9A',Café:'#7B3F00'};
+const MEDALS = {Peatonal:'🥇','9 de Julio':'🥈',Amigorena:'🥉',Sheraton:'4️⃣',Café:'☕'};
+const KPI_MESES=[{m:'Ene',e2:27699269,neto:22891958,res:56.07},{m:'Feb',e2:39034639,neto:32260032,res:63.82},{m:'Mar',e2:45962641,neto:37985654,res:21.86},{m:'Abr',e2:36061899,neto:29803222,res:48.52},{m:'May',e2:49608413,neto:40998688,res:71.03},{m:'Jun',e2:34768877,neto:28734609,res:51.65},{m:'Jul',e2:35768692,neto:29560902,res:36.20},{m:'Ago',e2:67950205,neto:56157194,res:83.26},{m:'Sep',e2:51773089,neto:42787677,res:64.05},{m:'Oct',e2:51507494,neto:42568177,res:61.53},{m:'Nov',e2:41310098,neto:34140577,res:49.92},{m:'Dic',e2:16160530,neto:13355810,res:47.23}];
+
+const DB = [
+  {tienda:'Peatonal',   mes:'2026-01',total:36036994,tickets:1228,ticket_prom:29346},
+  {tienda:'Peatonal',   mes:'2026-02',total:35884224,tickets:1184,ticket_prom:30307},
+  {tienda:'Peatonal',   mes:'2026-03',total:38220460,tickets:1262,ticket_prom:30285},
+  {tienda:'Peatonal',   mes:'2026-04',total:32990020,tickets:1069,ticket_prom:30860},
+  {tienda:'Peatonal',   mes:'2026-05',total:13116015,tickets:468, ticket_prom:28025},
+  {tienda:'9 de Julio', mes:'2026-01',total:19484410,tickets:680, ticket_prom:28653},
+  {tienda:'9 de Julio', mes:'2026-02',total:19841003,tickets:700, ticket_prom:28344},
+  {tienda:'9 de Julio', mes:'2026-03',total:18471670,tickets:600, ticket_prom:30786},
+  {tienda:'9 de Julio', mes:'2026-04',total:19816980,tickets:638, ticket_prom:31061},
+  {tienda:'9 de Julio', mes:'2026-05',total:5984730, tickets:187, ticket_prom:32003},
+  {tienda:'Amigorena',  mes:'2026-01',total:8082270, tickets:291, ticket_prom:27774},
+  {tienda:'Amigorena',  mes:'2026-02',total:12826035,tickets:457, ticket_prom:28065},
+  {tienda:'Amigorena',  mes:'2026-03',total:14713844,tickets:507, ticket_prom:29021},
+  {tienda:'Amigorena',  mes:'2026-04',total:17729099,tickets:594, ticket_prom:29846},
+  {tienda:'Amigorena',  mes:'2026-05',total:8327330, tickets:245, ticket_prom:33989},
+  {tienda:'Sheraton',   mes:'2026-01',total:6145530, tickets:422, ticket_prom:14562},
+  {tienda:'Sheraton',   mes:'2026-02',total:5339005, tickets:355, ticket_prom:15039},
+  {tienda:'Sheraton',   mes:'2026-03',total:9482235, tickets:493, ticket_prom:19233},
+  {tienda:'Sheraton',   mes:'2026-04',total:6895175, tickets:356, ticket_prom:19368},
+  {tienda:'Sheraton',   mes:'2026-05',total:3318060, tickets:169, ticket_prom:19633},
+  {tienda:'Café',       mes:'2026-01',total:37836082,tickets:1875,ticket_prom:20179},
+  {tienda:'Café',       mes:'2026-02',total:39251255,tickets:1886,ticket_prom:20811},
+  {tienda:'Café',       mes:'2026-03',total:32864890,tickets:1750,ticket_prom:18779},
+  {tienda:'Café',       mes:'2026-04',total:35140595,tickets:1788,ticket_prom:19653},
+  {tienda:'Café',       mes:'2026-05',total:9578635, tickets:515, ticket_prom:18599},
+];
+
+const STORES = [...new Set(DB.map(r=>r.tienda))];
+const MESES  = [...new Set(DB.map(r=>r.mes))].sort();
+
+const fmtM = n => n>=1e6 ? '$'+(n/1e6).toFixed(1)+'M' : n>=1e3 ? '$'+(n/1e3).toFixed(0)+'k' : '$'+Math.round(n).toLocaleString('es-AR');
+const mlbl = {'01':'Enero','02':'Febrero','03':'Marzo','04':'Abril','05':'Mayo','06':'Junio','07':'Julio','08':'Agosto','09':'Sept','10':'Oct','11':'Nov','12':'Dic'};
+const ml   = m => (mlbl[m.slice(5)] || m) + (m.slice(5)==='05' ? '*' : '');
+const mlS  = m => ({'01':'Ene','02':'Feb','03':'Mar','04':'Abr','05':'May','06':'Jun','07':'Jul','08':'Ago','09':'Sep','10':'Oct','11':'Nov','12':'Dic'})[m.slice(5)] || m;
+
+function storeData(s, months=MESES){
+  const rows = DB.filter(r=>r.tienda===s && months.includes(r.mes));
+  return {total:rows.reduce((a,r)=>a+r.total,0), tickets:rows.reduce((a,r)=>a+r.tickets,0), rows};
+}
+
+function go(id,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  el.classList.add('active');
+  if(id==='meses' && !document.getElementById('mscroll').children.length) renderMeses();
+}
+
+function renderAll(){ renderResumen(); renderTiendas(); renderMacro(); }
+
+function renderResumen(){
+  const tot   = Object.fromEntries(STORES.map(s=>[s,storeData(s)]));
+  const clean = Object.fromEntries(STORES.map(s=>[s,storeData(s,MESES.slice(0,-1))]));
+  const grand    = STORES.reduce((a,s)=>a+tot[s].total,0);
+  const grandTkt = STORES.reduce((a,s)=>a+tot[s].tickets,0);
+  document.getElementById('bTotal').textContent   = fmtM(grand);
+  document.getElementById('bPeriod').textContent  = MESES.length+' meses · '+STORES.length+' unidades';
+  document.getElementById('bTkt').textContent     = grandTkt.toLocaleString();
+  document.getElementById('bTktProm').textContent = 'Prom. '+fmtM(grand/grandTkt);
+  const leader = STORES.reduce((a,b)=>tot[a].total>tot[b].total?a:b);
+  document.getElementById('bLeader').textContent    = leader;
+  document.getElementById('bLeaderPct').textContent = (tot[leader].total/grand*100).toFixed(0)+'% del total';
+  let bM='',bV=0;
+  MESES.forEach(m=>{
+    const t=STORES.reduce((a,s)=>a+(DB.find(r=>r.tienda===s&&r.mes===m)?.total||0),0);
+    if(t>bV){bV=t;bM=m;}
+  });
+  document.getElementById('bBestMes').textContent = ml(bM).replace('*','');
+  document.getElementById('bBestVal').textContent = fmtM(bV)+' total red';
+  new Chart(document.getElementById('cEvol'),{type:'bar',data:{
+    labels:MESES.map(mlS),
+    datasets:STORES.map(s=>({label:s,data:MESES.map(m=>(DB.find(r=>r.tienda===s&&r.mes===m)?.total||0)/1e6),backgroundColor:(SC[s]||'#888')+'CC',borderRadius:3,borderSkipped:false}))
+  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#9B8470',font:{size:10},padding:7,boxWidth:9},position:'bottom'}},scales:{x:{stacked:true,grid:{display:false},ticks:{color:'#9B8470',font:{size:10}}},y:{stacked:true,grid:{color:'rgba(0,0,0,.05)'},ticks:{color:'#9B8470',font:{size:10},callback:v=>'$'+v+'M'}}}}});
+  new Chart(document.getElementById('cPie'),{type:'doughnut',data:{
+    labels:STORES,
+    datasets:[{data:STORES.map(s=>clean[s].total),backgroundColor:STORES.map(s=>SC[s]||'#888'),borderWidth:0,hoverOffset:4}]
+  },options:{responsive:true,maintainAspectRatio:false,cutout:'52%',plugins:{legend:{labels:{color:'#9B8470',font:{size:11},padding:9,boxWidth:11},position:'right'}}}});
+}
+
+function renderTiendas(){
+  const tot   = Object.fromEntries(STORES.map(s=>[s,storeData(s)]));
+  const grand = STORES.reduce((a,s)=>a+tot[s].total,0);
+  const sl = document.getElementById('storeList'); sl.innerHTML='';
+  [...STORES].sort((a,b)=>tot[b].total-tot[a].total).forEach(s=>{
+    const d = tot[s];
+    const sorted = MESES.slice().sort();
+    const last=sorted[sorted.length-1], prev=sorted[sorted.length-2];
+    const vLast = DB.find(r=>r.tienda===s&&r.mes===last)?.total||0;
+    const vPrev = DB.find(r=>r.tienda===s&&r.mes===prev)?.total||0;
+    const trend = vPrev ? ((vLast-vPrev)/vPrev*100) : 0;
+    const pct   = (d.total/grand*100).toFixed(0);
+    const unit  = s==='Café' ? 'mesas' : 'tickets';
+    sl.innerHTML += `<div class="scard" style="border-left-color:${SC[s]||'#888'};cursor:pointer" onclick="showStoreDetail('${s}')">
+      <div class="sm">${MEDALS[s]||'🏪'}</div>
+      <div class="sl"><div class="sn" style="color:${SC[s]||'#888'}">${s}</div>
+        <div class="sv">${fmtM(d.total)}</div>
+        <div class="ss">${d.tickets.toLocaleString()} ${unit} · ${d.rows.length} meses</div></div>
+      <div class="sr"><div class="trend ${trend>=0?'up':'dn'}">${trend>=0?'▲':'▼'}${Math.abs(trend).toFixed(0)}%</div>
+        <div class="spct">${pct}% del total</div></div></div>`;
+  });
+  new Chart(document.getElementById('cTkt'),{type:'line',data:{
+    labels:MESES.map(mlS),
+    datasets:STORES.map(s=>({label:s,data:MESES.map(m=>DB.find(r=>r.tienda===s&&r.mes===m)?.ticket_prom||null),borderColor:SC[s]||'#888',backgroundColor:(SC[s]||'#888')+'22',tension:.35,pointRadius:4,pointBackgroundColor:SC[s]||'#888',fill:false,borderWidth:2,spanGaps:true}))
+  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#9B8470',font:{size:10},padding:7,boxWidth:9},position:'bottom'}},scales:{x:{grid:{display:false},ticks:{color:'#9B8470',font:{size:10}}},y:{grid:{color:'rgba(0,0,0,.05)'},ticks:{color:'#9B8470',font:{size:10},callback:v=>'$'+Math.round(v/1000)+'k'}}}}});
+}
+
+let selMes = null;
+function renderMeses(){
+  if(!selMes) selMes = MESES[MESES.length-2] || MESES[0];
+  const sc = document.getElementById('mscroll'); sc.innerHTML='';
+  MESES.forEach(m=>{
+    const t   = STORES.reduce((a,s)=>a+(DB.find(r=>r.tienda===s&&r.mes===m)?.total||0),0);
+    const tkt = STORES.reduce((a,s)=>a+(DB.find(r=>r.tienda===s&&r.mes===m)?.tickets||0),0);
+    sc.innerHTML += `<div class="mc ${m===selMes?'sel':''}" onclick="pickMes('${m}',this)">
+      <div class="mm">${ml(m)}</div><div class="mv">${fmtM(t)}</div><div class="ms">${tkt.toLocaleString()} tkts</div></div>`;
+  });
+  renderMesDetail(selMes);
+}
+function pickMes(m,el){ selMes=m; document.querySelectorAll('.mc').forEach(c=>c.classList.remove('sel')); el.classList.add('sel'); renderMesDetail(m); }
+function renderMesDetail(m){
+  const sorted = [...STORES].sort((a,b)=>(DB.find(r=>r.tienda===b&&r.mes===m)?.total||0)-(DB.find(r=>r.tienda===a&&r.mes===m)?.total||0));
+  const total  = sorted.reduce((a,s)=>a+(DB.find(r=>r.tienda===s&&r.mes===m)?.total||0),0);
+  let h = `<div class="mdetail"><div class="mdh">${ml(m)} · total ${fmtM(total)}</div>`;
+  sorted.forEach(s=>{
+    const d = DB.find(r=>r.tienda===s&&r.mes===m);
+    if(!d) return;
+    const unit = s==='Café' ? 'mesas' : 'tkts';
+    h += `<div class="mdr"><div class="mdd" style="background:${SC[s]||'#888'}"></div>
+      <div class="mdsn">${s}</div><div><div class="mdv">${fmtM(d.total)}</div>
+      <div class="mdt">${d.tickets} ${unit} · ${fmtM(d.ticket_prom)}/${unit.slice(0,-1)}</div></div></div>`;
+  });
+  h += `</div>`; document.getElementById('mdetail').innerHTML=h;
+}
+
+function renderMacro(){
+  new Chart(document.getElementById('cMacro'),{type:'bar',data:{
+    labels:KPI_MESES.map(m=>m.m),
+    datasets:[{label:'% Resultado',data:KPI_MESES.map(m=>m.res),backgroundColor:KPI_MESES.map(m=>m.res>60?'#1E7A4888':m.res<40?'#B0303088':'#A0601088'),borderRadius:4}]
+  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{color:'#9B8470',font:{size:10}}},y:{grid:{color:'rgba(0,0,0,.05)'},ticks:{color:'#9B8470',font:{size:10},callback:v=>v+'%'},min:0,max:100}}}});
+  document.getElementById('tMacro').innerHTML = KPI_MESES.map(m=>`<tr><td style="font-weight:600;color:var(--brown)">${m.m}</td><td>$${Math.round(m.e2/1e6)}M</td><td>$${Math.round(m.neto/1e6)}M</td><td><span class="badge ${m.res>60?'up':m.res<40?'dn':'fl'}">${m.res.toFixed(1)}%</span></td></tr>`).join('');
+}
+
+function showStoreDetail(s){
+  const det = document.getElementById('storeDetail');
+  // toggle off if same store
+  if(det.dataset.store===s && det.style.display!=='none'){ det.style.display='none'; det.dataset.store=''; return; }
+  det.dataset.store = s;
+  const unit = s==='Café' ? 'mesa' : 'ticket';
+  const color = SC[s]||'#888';
+  const rows = DB.filter(r=>r.tienda===s).sort((a,b)=>a.mes.localeCompare(b.mes));
+  let h = `<div class="mdetail"><div class="mdh" style="color:${color}">${s} · Detalle mensual</div>`;
+  h += `<div style="overflow-x:auto"><table style="min-width:280px">
+    <thead><tr><th>Mes</th><th>Facturación</th><th>${unit[0].toUpperCase()+unit.slice(1)}s</th><th>Prom/${unit}</th></tr></thead><tbody>`;
+  let prevTotal = 0;
+  rows.forEach((r,i)=>{
+    const vs = i>0 ? ((r.total-rows[i-1].total)/rows[i-1].total*100) : null;
+    const badge = vs!==null ? `<span class="badge ${vs>=0?'up':'dn'}">${vs>=0?'▲':'▼'}${Math.abs(vs).toFixed(0)}%</span>` : '';
+    h += `<tr><td style="font-weight:600;color:${color}">${ml(r.mes)}</td><td>${fmtM(r.total)} ${badge}</td><td>${r.tickets.toLocaleString()}</td><td>${fmtM(r.ticket_prom)}</td></tr>`;
+  });
+  const total = rows.reduce((a,r)=>a+r.total,0);
+  const tkts  = rows.reduce((a,r)=>a+r.tickets,0);
+  h += `</tbody><tfoot><tr><td>TOTAL</td><td>${fmtM(total)}</td><td>${tkts.toLocaleString()}</td><td>${fmtM(Math.round(total/tkts))}</td></tr></tfoot>`;
+  h += `</table></div></div>`;
+  det.innerHTML = h;
+  det.style.display = 'block';
+  det.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+
+function init(){
+  document.getElementById('dot').className       = 'dot';
+  document.getElementById('pillTxt').textContent = 'Actualizado';
+  document.getElementById('statusBar').textContent = '✅ Ene–May 2026 · 4 tiendas + 1 café · datos incorporados';
+  try { renderAll(); } catch(e){ console.error('renderAll error:', e); }
+}
+
+init();
+</script>
+</body>
+</html>
