@@ -221,7 +221,13 @@ tfoot td{background:var(--card2);font-weight:700;color:var(--br)}
   <div class="cc"><div class="cl">Todas las unidades</div><div style="position:relative;height:200px"><canvas id="cMacroRev"></canvas></div></div>
   <div class="sec">Docenas mensuales · tendencia</div>
   <div class="cc"><div class="cl">Total red (sin café)</div><div style="position:relative;height:180px"><canvas id="cMacroDoc"></canvas></div></div>
-  <div class="sec">Totalizador · facturación mensual por tienda</div>
+  <div class="sec" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px">
+    <span>Totalizador mensual por tienda</span>
+    <div style="display:flex;gap:5px">
+      <button id="totBtnFac" class="mf-btn on" style="--c:var(--br);padding:4px 11px;font-size:10.5px" onclick="switchTot('fac')">💰 Facturación</button>
+      <button id="totBtnDoc" class="mf-btn" style="--c:#5C3D2B;padding:4px 11px;font-size:10.5px" onclick="switchTot('doc')">📦 Docenas</button>
+    </div>
+  </div>
   <div class="tscroll" id="macroTotalizador"></div>
   <div class="sec">Conclusiones y recomendaciones</div>
   <div class="concl" id="conclDiv"></div>
@@ -886,49 +892,8 @@ function renderMacro(){
   const mejorMayo=Object.entries(sp).sort((a,b)=>b[1].pct-a[1].pct)[0];
   const peorMayo=Object.entries(sp).sort((a,b)=>a[1].pct-b[1].pct)[0];
   const docTrendTxt=Math.abs(docTrend)<3?'estancadas (0%)':docTrend>0?`creciendo +${docTrend.toFixed(0)}%`:`cayendo ${docTrend.toFixed(0)}%`;
-  // Totalizador: tiendas × meses
-  const allMeses=MESES;
-  const totHdr=`<table style="border-collapse:collapse;width:100%;font-size:11px">
-    <thead><tr style="background:var(--blt)">
-      <th style="padding:6px 8px;text-align:left;color:var(--tx3);font-weight:600;position:sticky;left:0;background:var(--blt);border-bottom:2px solid var(--border)">Mes</th>
-      ${STORES.map(s=>`<th style="padding:6px 8px;text-align:right;color:${SC[s]};font-weight:600;border-bottom:2px solid var(--border)">${s}</th>`).join('')}
-      <th style="padding:6px 8px;text-align:right;color:var(--br);font-weight:700;border-bottom:2px solid var(--border)">TOTAL</th>
-    </tr></thead>`;
-  // Find max per store for highlight
-  const storeMax=Object.fromEntries(STORES.map(s=>[s,Math.max(...allMeses.map(m=>DB.find(r=>r.tienda===s&&r.mes===m)?.total||0))]));
-  let totBody='<tbody>';
-  let storeTotals=Object.fromEntries(STORES.map(s=>[s,0]));
-  let grandTotalAll=0;
-  allMeses.forEach((m,mi)=>{
-    const rowTot=STORES.reduce((a,s)=>a+(DB.find(r=>r.tienda===s&&r.mes===m)?.total||0),0);
-    grandTotalAll+=rowTot;
-    const isLast=(mi===allMeses.length-1);
-    const rowBg=isLast?'background:rgba(92,61,43,.04)':'';
-    totBody+=`<tr style="${rowBg}">`;
-    totBody+=`<td style="padding:5px 8px;font-weight:600;color:var(--tx2);white-space:nowrap;position:sticky;left:0;background:${isLast?'rgba(92,61,43,.04)':'var(--card)'};border-bottom:1px solid var(--border)">${mlFull(m)}</td>`;
-    STORES.forEach(s=>{
-      const v=DB.find(r=>r.tienda===s&&r.mes===m)?.total||0;
-      storeTotals[s]+=v;
-      const isMax=(v===storeMax[s]&&v>0);
-      const prevM=mi>0?allMeses[mi-1]:null;
-      const prevV=prevM?DB.find(r=>r.tienda===s&&r.mes===prevM)?.total||0:null;
-      const pct=prevV&&prevV>0?((v-prevV)/prevV*100):null;
-      const arrow=pct!==null?(pct>=0?`<span style="color:var(--gr);font-size:9px"> ▲${pct.toFixed(0)}%</span>`:`<span style="color:var(--rd);font-size:9px"> ▼${Math.abs(pct).toFixed(0)}%</span>`):'';
-      const bg=isMax?`background:${SC[s]}18;font-weight:700`:'';
-      totBody+=`<td style="padding:5px 8px;text-align:right;${bg};border-bottom:1px solid var(--border);border-left:1px solid var(--border)">${v>0?fmtM(v)+''+arrow:'<span style="color:var(--tx4)">—</span>'}</td>`;
-    });
-    totBody+=`<td style="padding:5px 8px;text-align:right;font-weight:700;color:var(--br);border-bottom:1px solid var(--border);border-left:2px solid var(--border)">${fmtM(rowTot)}</td>`;
-    totBody+='</tr>';
-  });
-  // Totals row
-  totBody+='<tr style="background:var(--blt);font-weight:700">';
-  totBody+=`<td style="padding:6px 8px;color:var(--br);font-weight:700;position:sticky;left:0;background:var(--blt)">TOTAL</td>`;
-  STORES.forEach(s=>{
-    totBody+=`<td style="padding:6px 8px;text-align:right;color:${SC[s]};border-left:1px solid var(--border)">${fmtM(storeTotals[s])}</td>`;
-  });
-  totBody+=`<td style="padding:6px 8px;text-align:right;color:var(--br);border-left:2px solid var(--border)">${fmtM(grandTotalAll)}</td>`;
-  totBody+='</tr></tbody></table>';
-  document.getElementById('macroTotalizador').innerHTML=totHdr+totBody;
+  // Totalizador: render default mode
+  renderTotalizador('fac');
 
   document.getElementById('conclDiv').innerHTML=`
     <div class="concl-item"><div class="concl-icon">📦</div><div class="concl-txt">
@@ -949,6 +914,83 @@ function renderMacro(){
     <div class="concl-item"><div class="concl-icon">🏆</div><div class="concl-txt">
       <strong>Amigorena en crecimiento sostenido:</strong> Pasó de ${fmtM(storeData('Amigorena',['2026-01']).total)} en Enero a ${fmtM(storeData('Amigorena',['2026-04']).total)} en Abril (+${(((storeData('Amigorena',['2026-04']).total-storeData('Amigorena',['2026-01']).total)/storeData('Amigorena',['2026-01']).total)*100).toFixed(0)}%). Analizar qué está funcionando para replicarlo en otras tiendas.
     </div></div>`;
+}
+
+
+let _totMode='fac';
+function switchTot(mode){
+  _totMode=mode;
+  renderTotalizador(mode);
+}
+
+function renderTotalizador(mode){
+  const isFac=(mode==='fac');
+  const allMeses=MESES;
+  const alfS=STORES.filter(s=>s!=='Café');
+  const getVal=(s,m)=>isFac
+    ?(DB.find(r=>r.tienda===s&&r.mes===m)?.total||0)
+    :(s==='Café'?null:(DOCENAS[s]?.[m]||0));
+  const fmtVal=(s,v)=>v===null?null:(isFac?fmtM(v):fmtN(Math.round(v))+' doc');
+  const storeMax=Object.fromEntries(STORES.map(s=>[s,
+    (s==='Café'&&!isFac)?0:Math.max(...allMeses.map(m=>getVal(s,m)||0))]));
+  // Header
+  let totHdr=`<table style="border-collapse:collapse;width:100%;font-size:11px"><thead><tr style="background:var(--blt)">`;
+  totHdr+=`<th style="padding:6px 8px;text-align:left;color:var(--tx3);font-weight:600;position:sticky;left:0;background:var(--blt);border-bottom:2px solid var(--border)">Mes</th>`;
+  STORES.forEach(s=>{
+    const lbl=(s==='Café'&&!isFac)?`<span style='color:var(--tx4)'>${s}</span>`:s;
+    totHdr+=`<th style="padding:6px 8px;text-align:right;color:${SC[s]};font-weight:600;border-bottom:2px solid var(--border)">${lbl}</th>`;
+  });
+  totHdr+=`<th style="padding:6px 8px;text-align:right;color:var(--br);font-weight:700;border-bottom:2px solid var(--border)">TOTAL</th></tr></thead>`;
+  let totBody='<tbody>';
+  const storeTotals=Object.fromEntries(STORES.map(s=>[s,0]));
+  let grandTotalAll=0;
+  allMeses.forEach((m,mi)=>{
+    const rowVals=STORES.map(s=>getVal(s,m));
+    const rowTot=isFac
+      ?STORES.reduce((a,s)=>a+(getVal(s,m)||0),0)
+      :alfS.reduce((a,s)=>a+(getVal(s,m)||0),0);
+    grandTotalAll+=rowTot;
+    const isLast=(mi===allMeses.length-1);
+    const rowBg=isLast?'background:rgba(92,61,43,.04)':'';
+    const cellBg=isLast?'rgba(92,61,43,.04)':'var(--card)';
+    totBody+=`<tr style="${rowBg}">`;
+    totBody+=`<td style="padding:5px 8px;font-weight:600;color:var(--tx2);white-space:nowrap;position:sticky;left:0;background:${cellBg};border-bottom:1px solid var(--border)">${mlFull(m)}</td>`;
+    STORES.forEach((s,si)=>{
+      const v=rowVals[si];
+      if(v===null){
+        totBody+=`<td style="padding:5px 8px;text-align:right;color:var(--tx4);border-bottom:1px solid var(--border);border-left:1px solid var(--border)">—</td>`;
+        return;
+      }
+      storeTotals[s]+=v;
+      const isMax=(v>0&&v===storeMax[s]);
+      const prevV=mi>0?getVal(s,allMeses[mi-1]):null;
+      const pct=(prevV&&prevV>0)?((v-prevV)/prevV*100):null;
+      const arrow=pct!==null?(pct>=0
+        ?`<span style="color:var(--gr);font-size:9px"> ▲${pct.toFixed(0)}%</span>`
+        :`<span style="color:var(--rd);font-size:9px"> ▼${Math.abs(pct).toFixed(0)}%</span>`):'';
+      const cellStyle=isMax?`background:${SC[s]}18;font-weight:700`:'';
+      const display=v>0?(fmtVal(s,v)+arrow):'<span style="color:var(--tx4)">—</span>';
+      totBody+=`<td style="padding:5px 8px;text-align:right;${cellStyle};border-bottom:1px solid var(--border);border-left:1px solid var(--border)">${display}</td>`;
+    });
+    const totFmt=isFac?fmtM(rowTot):fmtN(Math.round(rowTot))+' doc';
+    totBody+=`<td style="padding:5px 8px;text-align:right;font-weight:700;color:var(--br);border-bottom:1px solid var(--border);border-left:2px solid var(--border)">${totFmt}</td>`;
+    totBody+='</tr>';
+  });
+  totBody+='<tr style="background:var(--blt);font-weight:700">';
+  totBody+=`<td style="padding:6px 8px;color:var(--br);font-weight:700;position:sticky;left:0;background:var(--blt)">TOTAL</td>`;
+  STORES.forEach(s=>{
+    const tv=storeTotals[s];
+    const disp=(s==='Café'&&!isFac)?'—':(isFac?fmtM(tv):fmtN(Math.round(tv))+' doc');
+    totBody+=`<td style="padding:6px 8px;text-align:right;color:${SC[s]};border-left:1px solid var(--border)">${disp}</td>`;
+  });
+  const grandFmt=isFac?fmtM(grandTotalAll):fmtN(Math.round(grandTotalAll))+' doc';
+  totBody+=`<td style="padding:6px 8px;text-align:right;color:var(--br);border-left:2px solid var(--border)">${grandFmt}</td>`;
+  totBody+='</tr></tbody></table>';
+  document.getElementById('macroTotalizador').innerHTML=totHdr+totBody;
+  // Sync button styles
+  const bF=document.getElementById('totBtnFac'),bD=document.getElementById('totBtnDoc');
+  if(bF){bF.className='mf-btn'+(isFac?' on':'');bF.style.setProperty('--c','var(--br)');}
+  if(bD){bD.className='mf-btn'+(!isFac?' on':'');bD.style.setProperty('--c','#5C3D2B');}
 }
 
 /* ======= INIT ======= */
