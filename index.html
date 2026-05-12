@@ -221,6 +221,8 @@ tfoot td{background:var(--card2);font-weight:700;color:var(--br)}
   <div class="cc"><div class="cl">Todas las unidades</div><div style="position:relative;height:200px"><canvas id="cMacroRev"></canvas></div></div>
   <div class="sec">Docenas mensuales · tendencia</div>
   <div class="cc"><div class="cl">Total red (sin café)</div><div style="position:relative;height:180px"><canvas id="cMacroDoc"></canvas></div></div>
+  <div class="sec">Totalizador · facturación mensual por tienda</div>
+  <div class="tscroll" id="macroTotalizador"></div>
   <div class="sec">Conclusiones y recomendaciones</div>
   <div class="concl" id="conclDiv"></div>
 </div>
@@ -484,7 +486,11 @@ function renderStoreWeeklyHTML(s, months){
   const wks=getFilteredWeeks(s, months);
   let h=`<div class="cl">Análisis semana a semana · ${s}</div>`;
   h+=`<div style="position:relative;height:160px;margin-bottom:10px"><canvas id="cWk_${s.replace(/ /g,'_')}"></canvas></div>`;
-  h+=`<div class="tscroll"><table><thead><tr><th>Semana</th><th>Facturación</th><th>Var%</th><th class="doc-col">Docenas</th><th class="doc-col">Var%</th></tr></thead><tbody>`;
+  const isCafe=(s==='Café');
+  const colHdr=isCafe
+    ?`<th>Semana</th><th>Facturación</th><th>Var% Fac</th><th class="doc-col">Sem. anterior</th><th class="doc-col">Var% Fac</th>`
+    :`<th>Semana</th><th>Facturación</th><th>Var%</th><th class="doc-col">Docenas</th><th class="doc-col">Var%</th>`;
+  h+=`<div class="tscroll"><table><thead><tr>${colHdr}</tr></thead><tbody>`;
   wks.forEach((w,i)=>{
     const prevR=i>0?wks[i-1].total:null;
     const prevD=i>0?wks[i-1].docenas:null;
@@ -492,10 +498,17 @@ function renderStoreWeeklyHTML(s, months){
     const varD=prevD?((w.docenas-prevD)/prevD*100):null;
     const varRBadge=varR!==null?`<span class="badge ${varR>=0?'up':'dn'}">${varR>=0?'+':''}${varR.toFixed(0)}%</span>`:'—';
     const varDBadge=varD!==null&&s!=='Café'?`<span class="badge ${varD>=0?'up':'dn'}">${varD>=0?'+':''}${varD.toFixed(0)}%</span>`:'—';
-    h+=`<tr><td style="font-size:10px;color:var(--tx3)">${w.label}</td>
-      <td>${fmtM(w.total)}</td><td>${varRBadge}</td>
-      <td class="doc-col">${s!=='Café'?fmtN(Math.round(w.docenas))+' doc':'—'}</td>
-      <td class="doc-col">${s!=='Café'?varDBadge:'—'}</td></tr>`;
+    if(isCafe){
+      h+=`<tr><td style="font-size:10px;color:var(--tx3)">${w.label}</td>
+        <td>${fmtM(w.total)}</td><td>${varRBadge}</td>
+        <td class="doc-col" style="color:var(--tx3)">${prevR?fmtM(prevR):'—'}</td>
+        <td class="doc-col">${varRBadge}</td></tr>`;
+    } else {
+      h+=`<tr><td style="font-size:10px;color:var(--tx3)">${w.label}</td>
+        <td>${fmtM(w.total)}</td><td>${varRBadge}</td>
+        <td class="doc-col">${fmtN(Math.round(w.docenas))+' doc'}</td>
+        <td class="doc-col">${varDBadge}</td></tr>`;
+    }
   });
   h+=`</tbody></table></div>`;
   return h;
@@ -668,16 +681,28 @@ function renderSdSemana(s){
       scales:{x:{grid:{display:false},ticks:{color:'#9B8470',font:{size:9},maxRotation:45}},
         y:{position:'left',ticks:{callback:v=>fmtM(v),color:'#9B8470',font:{size:9}}},
         ...(s!=='Café'?{y2:{position:'right',ticks:{callback:v=>v+' d',color:color,font:{size:9}},grid:{display:false}}}:{})}}});
+  const isCafe=(s==='Café');
+  // Update headers dynamically for Café
+  const thdr=document.getElementById('tStoreWkHdr');
+  if(thdr) thdr.innerHTML=isCafe
+    ?`<th>Semana</th><th>Facturación</th><th>Var% Fac</th><th class="doc-col">Sem. anterior</th><th class="doc-col">Var% Fac</th>`
+    :`<th>Semana</th><th>Facturación</th><th>Var%</th><th class="doc-col">Docenas</th><th class="doc-col">Var%</th>`;
   const tbody=document.getElementById('tStoreWk');
   tbody.innerHTML=wks.map((w,i)=>{
     const pr=i>0?wks[i-1].total:null,pd=i>0?wks[i-1].docenas:null;
     const vr=pr?((w.total-pr)/pr*100):null,vd=pd?((w.docenas-pd)/pd*100):null;
     const br=vr!==null?`<span class="badge ${vr>=0?'up':'dn'}">${vr>=0?'+':''}${vr.toFixed(0)}%</span>`:'—';
     const bd=vd!==null&&s!=='Café'?`<span class="badge ${vd>=0?'up':'dn'}">${vd>=0?'+':''}${vd.toFixed(0)}%</span>`:'—';
+    if(isCafe){
+      return`<tr><td style="font-size:10px;color:var(--tx3)">${w.label}</td>
+        <td>${fmtM(w.total)}</td><td>${br}</td>
+        <td class="doc-col" style="color:var(--tx3)">${pr?fmtM(pr):'—'}</td>
+        <td class="doc-col">${br}</td></tr>`;
+    }
     return`<tr><td style="font-size:10px;color:var(--tx3)">${w.label}</td>
       <td>${fmtM(w.total)}</td><td>${br}</td>
-      <td class="doc-col">${s!=='Café'?fmtN(Math.round(w.docenas))+' doc':'—'}</td>
-      <td class="doc-col">${s!=='Café'?bd:'—'}</td></tr>`;
+      <td class="doc-col">${fmtN(Math.round(w.docenas))+' doc'}</td>
+      <td class="doc-col">${bd}</td></tr>`;
   }).join('');
 }
 
@@ -861,6 +886,50 @@ function renderMacro(){
   const mejorMayo=Object.entries(sp).sort((a,b)=>b[1].pct-a[1].pct)[0];
   const peorMayo=Object.entries(sp).sort((a,b)=>a[1].pct-b[1].pct)[0];
   const docTrendTxt=Math.abs(docTrend)<3?'estancadas (0%)':docTrend>0?`creciendo +${docTrend.toFixed(0)}%`:`cayendo ${docTrend.toFixed(0)}%`;
+  // Totalizador: tiendas × meses
+  const allMeses=MESES;
+  const totHdr=`<table style="border-collapse:collapse;width:100%;font-size:11px">
+    <thead><tr style="background:var(--blt)">
+      <th style="padding:6px 8px;text-align:left;color:var(--tx3);font-weight:600;position:sticky;left:0;background:var(--blt);border-bottom:2px solid var(--border)">Mes</th>
+      ${STORES.map(s=>`<th style="padding:6px 8px;text-align:right;color:${SC[s]};font-weight:600;border-bottom:2px solid var(--border)">${s}</th>`).join('')}
+      <th style="padding:6px 8px;text-align:right;color:var(--br);font-weight:700;border-bottom:2px solid var(--border)">TOTAL</th>
+    </tr></thead>`;
+  // Find max per store for highlight
+  const storeMax=Object.fromEntries(STORES.map(s=>[s,Math.max(...allMeses.map(m=>DB.find(r=>r.tienda===s&&r.mes===m)?.total||0))]));
+  let totBody='<tbody>';
+  let storeTotals=Object.fromEntries(STORES.map(s=>[s,0]));
+  let grandTotalAll=0;
+  allMeses.forEach((m,mi)=>{
+    const rowTot=STORES.reduce((a,s)=>a+(DB.find(r=>r.tienda===s&&r.mes===m)?.total||0),0);
+    grandTotalAll+=rowTot;
+    const isLast=(mi===allMeses.length-1);
+    const rowBg=isLast?'background:rgba(92,61,43,.04)':'';
+    totBody+=`<tr style="${rowBg}">`;
+    totBody+=`<td style="padding:5px 8px;font-weight:600;color:var(--tx2);white-space:nowrap;position:sticky;left:0;background:${isLast?'rgba(92,61,43,.04)':'var(--card)'};border-bottom:1px solid var(--border)">${mlFull(m)}</td>`;
+    STORES.forEach(s=>{
+      const v=DB.find(r=>r.tienda===s&&r.mes===m)?.total||0;
+      storeTotals[s]+=v;
+      const isMax=(v===storeMax[s]&&v>0);
+      const prevM=mi>0?allMeses[mi-1]:null;
+      const prevV=prevM?DB.find(r=>r.tienda===s&&r.mes===prevM)?.total||0:null;
+      const pct=prevV&&prevV>0?((v-prevV)/prevV*100):null;
+      const arrow=pct!==null?(pct>=0?`<span style="color:var(--gr);font-size:9px"> ▲${pct.toFixed(0)}%</span>`:`<span style="color:var(--rd);font-size:9px"> ▼${Math.abs(pct).toFixed(0)}%</span>`):'';
+      const bg=isMax?`background:${SC[s]}18;font-weight:700`:'';
+      totBody+=`<td style="padding:5px 8px;text-align:right;${bg};border-bottom:1px solid var(--border);border-left:1px solid var(--border)">${v>0?fmtM(v)+''+arrow:'<span style="color:var(--tx4)">—</span>'}</td>`;
+    });
+    totBody+=`<td style="padding:5px 8px;text-align:right;font-weight:700;color:var(--br);border-bottom:1px solid var(--border);border-left:2px solid var(--border)">${fmtM(rowTot)}</td>`;
+    totBody+='</tr>';
+  });
+  // Totals row
+  totBody+='<tr style="background:var(--blt);font-weight:700">';
+  totBody+=`<td style="padding:6px 8px;color:var(--br);font-weight:700;position:sticky;left:0;background:var(--blt)">TOTAL</td>`;
+  STORES.forEach(s=>{
+    totBody+=`<td style="padding:6px 8px;text-align:right;color:${SC[s]};border-left:1px solid var(--border)">${fmtM(storeTotals[s])}</td>`;
+  });
+  totBody+=`<td style="padding:6px 8px;text-align:right;color:var(--br);border-left:2px solid var(--border)">${fmtM(grandTotalAll)}</td>`;
+  totBody+='</tr></tbody></table>';
+  document.getElementById('macroTotalizador').innerHTML=totHdr+totBody;
+
   document.getElementById('conclDiv').innerHTML=`
     <div class="concl-item"><div class="concl-icon">📦</div><div class="concl-txt">
       <strong>Volumen vs precio:</strong> Las docenas están ${docTrendTxt} de Enero a Abril (${fmtN(docMeses[0])} → ${fmtN(docMeses[3])}). La facturación subió de $${(revCompleto[0]/1e6).toFixed(1)}M a $${(revCompleto[3]/1e6).toFixed(1)}M, lo que indica que el crecimiento viene principalmente de <strong>aumento de precios</strong>, no de mayor volumen vendido. Esto es una señal de alerta para la sostenibilidad a largo plazo.
